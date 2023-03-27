@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 User user = User();
 
@@ -17,6 +19,41 @@ class IntroductionScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  //FlutterTts instance
+  late FlutterTts flutterTts;
+
+  //Variable for text to be spoken
+  String textToBeSpoken =
+      'Tell the World is a text to speech mobile application to provide the user a listening tool that aims to assist the visually impaired to read the content by converting the text into speech. Tell the World helps them to read the content via listening by importing documents and dictionaries to check meaning while reading.';
+
+  bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Initialize the FlutterTts instance
+    flutterTts = FlutterTts();
+
+    Timer(const Duration(seconds: 0), () => _speak(textToBeSpoken));
+  }
+
+  initializeTts() {
+    flutterTts = FlutterTts();
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        isPlaying = true;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        isPlaying = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +139,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       minimumSize: const Size(100, 40),
                     ),
                     onPressed: () {
+                      _stop();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -117,5 +155,32 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         ),
       ]),
     );
+  }
+
+  // //Method to convert text to speech
+  // _speakText() async {
+  //   await flutterTts.setLanguage('en-US');
+  //   await flutterTts.setPitch(1);
+  //   await flutterTts.speak(textToBeSpoken);
+  // }
+
+  Future _speak(String textToBeSpoken) async {
+    if (textToBeSpoken != null && textToBeSpoken.isNotEmpty) {
+      var result = await flutterTts.speak(textToBeSpoken);
+      if (result == 1) {
+        setState(() {
+          isPlaying = true;
+        });
+      }
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) {
+      setState(() {
+        isPlaying = false;
+      });
+    }
   }
 }
