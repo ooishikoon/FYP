@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../model/user.dart';
+import 'dictionaryscreen.dart';
 import 'loginscreen.dart';
 import 'profilescreen.dart';
+import 'textscreen.dart';
 
 User user = User();
 
@@ -91,7 +93,15 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () => {},
+                      onTap: () => {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    TextScreen(
+                                      user: user,
+                                    )))
+                      },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
                         shadowColor: Colors.amber,
@@ -217,7 +227,15 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () => {},
+                      onTap: () => {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    DictionaryScreen(
+                                      user: user,
+                                    )))
+                      },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
                         shadowColor: Colors.amber,

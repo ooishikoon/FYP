@@ -160,7 +160,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   // //Method to convert text to speech
   // _speakText() async {
   //   await flutterTts.setLanguage('en-US');
-  //   await flutterTts.setPitch(1);
+  //   await flutterTts.setPitch(1); // 0.5 to 1.5
   //   await flutterTts.speak(textToBeSpoken);
   // }
 
