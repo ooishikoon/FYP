@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
 
@@ -23,6 +24,10 @@ class _TextScreenState extends State<TextScreen> {
   final FlutterTts flutterTts = FlutterTts();
   final TextEditingController textEditingController = TextEditingController();
 
+  void clearText() {
+    textEditingController.clear();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Stack(
@@ -32,6 +37,14 @@ class _TextScreenState extends State<TextScreen> {
               padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
               child: Stack(
                 children: [
+                  GestureDetector(
+                    onTap: () {
+                      FocusScopeNode currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus) {
+                        currentFocus.unfocus();
+                      }
+                    },
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -83,7 +96,7 @@ class _TextScreenState extends State<TextScreen> {
 
   Widget buildContext() => Container(
         alignment: Alignment.topCenter,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -92,23 +105,61 @@ class _TextScreenState extends State<TextScreen> {
                 height: 20,
               ),
               TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Enter your text here',
+                    alignLabelWithHint: true,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    prefixIcon: const Padding(
+                        padding: EdgeInsets.only(bottom: 220),
+                        child: Icon(Icons.description)),
+                    suffixIcon: IconButton(
+                      padding: const EdgeInsets.only(bottom: 220),
+                      icon: const Icon(Icons.clear), // clear text
+                      onPressed: clearText,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                minLines: 12,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 controller: textEditingController,
               ),
               const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () => speak(textEditingController.text),
-                child: const Text("Start Text To Speech"),
-              )
+                  onPressed: () => speak(textEditingController.text),
+                  style: ElevatedButton.styleFrom(
+                      side: const BorderSide(
+                          width: 3,
+                          color: Colors.amber), //border width and color
+                      elevation: 5, //elevation of button
+                      shape: RoundedRectangleBorder(
+                          //to set border radius to button
+                          borderRadius: BorderRadius.circular(30)),
+                      padding: const EdgeInsets.all(
+                          20) //content padding inside button
+                      ),
+                  child: const Text("Start Text To Speech"))
             ],
           ),
         ),
       );
 
   speak(String text) async {
-    await flutterTts.setLanguage('en-US');
-    await flutterTts.setPitch(1); // 0.5 to 1.5
-    await flutterTts.speak(text);
+    if (text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Please enter some text.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          fontSize: 14.0);
+      flutterTts.speak("Please enter some text");
+      return;
+    } else {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(text);
+    }
   }
 }
