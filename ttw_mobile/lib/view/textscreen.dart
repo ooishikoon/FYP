@@ -49,7 +49,7 @@ class _TextScreenState extends State<TextScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       buildReturnButton(),
-                      buildSpeech(),
+                      buildSpeechButton(),
                     ],
                   ),
                   Padding(
@@ -85,7 +85,7 @@ class _TextScreenState extends State<TextScreen> {
                     )));
       });
 
-  Widget buildSpeech() => const IconButton(
+  Widget buildSpeechButton() => const IconButton(
         icon: Icon(
           Icons.headphones,
           size: 35,
