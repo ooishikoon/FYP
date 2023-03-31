@@ -97,8 +97,7 @@ class _MainScreenState extends State<MainScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    TextScreen(
+                                builder: (BuildContext context) => TextScreen(
                                       user: user,
                                     )))
                       },
