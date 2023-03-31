@@ -60,7 +60,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         body: Stack(
           children: [
             buildBackground(),
-            buildContent(),
+            buildContext(),
             GestureDetector(
               onTap: () {
                 _stop();
@@ -79,7 +79,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     fit: BoxFit.cover))),
       );
 
-  Widget buildContent() => Column(
+  Widget buildContext() => Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 20, 20, 10),
