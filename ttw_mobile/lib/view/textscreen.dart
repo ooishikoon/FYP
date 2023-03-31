@@ -140,7 +140,7 @@ class _TextScreenState extends State<TextScreen> {
                       padding: const EdgeInsets.all(
                           20) //content padding inside button
                       ),
-                  child: const Text("Start Text To Speech"))
+                  child: const Text("Convert"))
             ],
           ),
         ),
