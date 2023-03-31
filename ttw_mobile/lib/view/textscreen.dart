@@ -54,7 +54,7 @@ class _TextScreenState extends State<TextScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 20, 0, 30),
-                    child: buildContext(),
+                    child: buildContent(),
                   ),
                 ],
               ),
@@ -94,7 +94,7 @@ class _TextScreenState extends State<TextScreen> {
         onPressed: null,
       );
 
-  Widget buildContext() => Container(
+  Widget buildContent() => Container(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(15.0),
