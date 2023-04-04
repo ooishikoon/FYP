@@ -20,6 +20,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late double screenHeight, screenWidth, resWidth;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   // Widget build(BuildContext context) {
   //   screenHeight = MediaQuery.of(context).size.height;
   //   screenWidth = MediaQuery.of(context).size.width;
@@ -73,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             context,
             MaterialPageRoute(
                 builder: (content) => MainScreen(
-                      user: user,
+                      user: widget.user,
                     )));
       });
 
@@ -113,10 +118,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "abc@gmail.com",
-                            style: TextStyle(
+                            widget.user.email.toString(),
+                            style: const TextStyle(
                               fontSize: 18,
                             ),
                           ),
@@ -307,7 +312,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const <Widget>[
-                                  Icon(Icons.settings,),
+                                  Icon(
+                                    Icons.settings,
+                                  ),
                                   Text("Setting"),
                                 ],
                               ),
@@ -352,7 +359,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                          
                         ],
                       )),
                     ],

@@ -232,7 +232,7 @@ class _MainScreenState extends State<MainScreen> {
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     DictionaryScreen(
-                                      user: user,
+                                      user: widget.user,
                                     )))
                       },
                       child: Card(
