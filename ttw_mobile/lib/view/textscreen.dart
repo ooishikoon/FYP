@@ -34,7 +34,7 @@ class _TextScreenState extends State<TextScreen> {
           children: [
             buildBackground(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
               child: Stack(
                 children: [
                   GestureDetector(
@@ -49,11 +49,12 @@ class _TextScreenState extends State<TextScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       buildReturnButton(),
+                      buildTitle(),
                       buildSpeechButton(),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 0, 30),
+                    padding: const EdgeInsets.fromLTRB(10, 30, 0, 30),
                     child: buildContext(),
                   ),
                 ],
@@ -71,6 +72,11 @@ class _TextScreenState extends State<TextScreen> {
                     fit: BoxFit.cover))),
       );
 
+  Widget buildTitle() => const Text(
+        "Text to Speech",
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      );
+
   Widget buildReturnButton() => IconButton(
       icon: const Icon(
         Icons.keyboard_arrow_left,
@@ -81,14 +87,14 @@ class _TextScreenState extends State<TextScreen> {
             context,
             MaterialPageRoute(
                 builder: (content) => MainScreen(
-                      user: user,
+                      user: widget.user,
                     )));
       });
 
   Widget buildSpeechButton() => const IconButton(
         icon: Icon(
           Icons.headphones,
-          size: 35,
+          size: 32,
           color: Colors.black,
         ),
         onPressed: null,
