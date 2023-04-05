@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
+import 'package:http/http.dart' as http;
 
 User user = User();
 
@@ -25,40 +30,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  // Widget build(BuildContext context) {
-  //   screenHeight = MediaQuery.of(context).size.height;
-  //   screenWidth = MediaQuery.of(context).size.width;
-  //   if (screenWidth <= 600) {
-  //     resWidth = screenWidth;
-  //   } else {
-  //     resWidth = screenWidth * 0.75;
-  //   }
+  Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth <= 600) {
+      resWidth = screenWidth;
+    } else {
+      resWidth = screenWidth * 0.75;
+    }
 
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            buildBackground(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
-              child: Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      buildReturnButton(),
-                      buildSpeech(),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 0, 30),
-                    child: buildProfile(),
-                  ),
-                ],
-              ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          buildBackground(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildReturnButton(),
+                    buildTitle(),
+                    buildSpeech(),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 40, 0, 40),
+                  child: buildProfile(),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget buildBackground() => ClipRRect(
         child: Container(
@@ -82,10 +89,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     )));
       });
 
+  Widget buildTitle() => const Text(
+        "Profile",
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      );
+
   Widget buildSpeech() => const IconButton(
         icon: Icon(
           Icons.headphones,
-          size: 35,
+          size: 32,
           color: Colors.black,
         ),
         onPressed: null,
@@ -94,13 +106,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget buildProfile() => Column(
         children: [
           SizedBox(
-            // child: Card(
             child: Row(
               children: [
                 Expanded(
-                  flex: 6,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(25.0),
                     child: GestureDetector(
                       onTap: () => {},
                       child: SizedBox(
@@ -112,119 +122,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Expanded(
-                    flex: 7,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.user.email.toString(),
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.user.email.toString(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    )),
+                    ],
+                  ),
+                )),
               ],
             ),
           ),
           Expanded(
-            flex: 2,
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 245, 240, 192),
-                      Color.fromARGB(255, 245, 243, 240)
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                        child: SizedBox.fromSize(
-                      size: const Size(45, 45),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.emoji_people_outlined),
-                            Text("Following"),
-                          ],
-                        ),
-                      ),
-                    )),
-                    Expanded(
-                        child: SizedBox.fromSize(
-                      size: const Size(45, 45),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.people_alt_outlined),
-                            Text("Follower"),
-                          ],
-                        ),
-                      ),
-                    )),
-                    Expanded(
-                        child: SizedBox.fromSize(
-                      size: const Size(45, 45),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.message_outlined),
-                            Text("Message"),
-                          ],
-                        ),
-                      ),
-                    )),
-                    Expanded(
-                        child: SizedBox.fromSize(
-                      size: const Size(45, 45),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.notification_important_outlined),
-                            Text("Notifications"),
-                          ],
-                        ),
-                      ),
-                    )),
-                  ],
-                ),
-              ),
+              child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Expanded(
-            flex: 5,
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
+            child: Container(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
@@ -236,137 +158,223 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: Column(
+                child: ListView(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    shrinkWrap: true,
                     children: [
-                      Expanded(
-                          child: GridView.count(
-                        // 12 items
-                        crossAxisCount: 4,
-                        childAspectRatio: 1,
-                        // 9 items
-                        // crossAxisCount: 3,
-                        // childAspectRatio: 1.5,
-                        children: <Widget>[
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(
-                                    Icons.file_copy,
-                                  ),
-                                  Text("Files"),
-                                ],
-                              ),
-                            ),
+                      MaterialButton(
+                        onPressed: () => {_updatePasswordDialog()},
+                        child: const Text(
+                          "Change Password",
+                          style: TextStyle(
+                            fontSize: 22,
                           ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(
-                                    Icons.book,
-                                  ),
-                                  Text("Dictionary"),
-                                ],
-                              ),
-                            ),
+                        ),
+                      ),
+                      const Divider(
+                        height: 25,
+                      ),
+                      MaterialButton(
+                        onPressed: () => {null},
+                        child: const Text(
+                          "Delete Account",
+                          style: TextStyle(
+                            fontSize: 22,
                           ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.bookmark_outline),
-                                  Text("Bookmark"),
-                                ],
-                              ),
-                            ),
+                        ),
+                      ),
+                      const Divider(
+                        height: 15,
+                      ),
+                      MaterialButton(
+                        onPressed: () => {null},
+                        child: const Text(
+                          "Setting",
+                          style: TextStyle(
+                            fontSize: 22,
                           ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.history_outlined),
-                                  Text("History"),
-                                ],
-                              ),
-                            ),
+                        ),
+                      ),
+                      const Divider(
+                        height: 15,
+                      ),
+                      MaterialButton(
+                        onPressed: () => {null},
+                        child: const Text(
+                          "Logout",
+                          style: TextStyle(
+                            fontSize: 22,
                           ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(
-                                    Icons.settings,
-                                  ),
-                                  Text("Setting"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.task_outlined),
-                                  Text("Task"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.mode),
-                                  Text("Theme"),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox.fromSize(
-                            size: const Size(45, 45),
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.person),
-                                  Text("Update Info"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
+                        ),
+                      ),
+                      const Divider(
+                        height: 15,
+                      ),
+                    ])),
+          ))
         ],
       );
+
+  void _updatePasswordDialog() {
+    TextEditingController _pass1editingController = TextEditingController();
+    TextEditingController _pass2editingController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          title: const Text(
+            "Update Password",
+            style: TextStyle(),
+          ),
+          content: SizedBox(
+            height: screenHeight / 5,
+            child: Column(
+              children: [
+                TextField(
+                    controller: _pass1editingController,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        labelText: 'New password',
+                        labelStyle: TextStyle(),
+                        icon: Icon(
+                          Icons.password,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2.0),
+                        ))),
+                TextField(
+                    controller: _pass2editingController,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        labelText: 'Renter password',
+                        labelStyle: TextStyle(),
+                        icon: Icon(
+                          Icons.password,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2.0),
+                        ))),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Confirm",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                if (_pass1editingController.text !=
+                    _pass2editingController.text) {
+                  Fluttertoast.showToast(
+                      msg: "Passwords are not the same",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      textColor: Colors.red,
+                      fontSize: 14.0);
+                  return;
+                }
+                if (_pass1editingController.text.isEmpty ||
+                    _pass2editingController.text.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: "Please fill in passwords",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      textColor: Colors.red,
+                      fontSize: 14.0);
+                  return;
+                }
+                Navigator.of(context).pop();
+                http.post(
+                    Uri.parse(
+                        CONSTANTS.server + "/fyp_ttw/php/update_profile.php"),
+                    body: {
+                      "password": _pass1editingController.text,
+                      "email": widget.user.email
+                    }).then((response) {
+                  var data = jsonDecode(response.body);
+                  if (response.statusCode == 200 &&
+                      data['status'] == 'success') {
+                    Fluttertoast.showToast(
+                        msg: "Success",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.green,
+                        fontSize: 14.0);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Failed",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.red,
+                        fontSize: 14.0);
+                  }
+                });
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "Cancel",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _logoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: const Text(
+            "Logout?",
+            style: TextStyle(),
+          ),
+          content: const Text("Are your sure"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('email', '');
+                await prefs.setString('password', '');
+                await prefs.setBool('remember', false);
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
