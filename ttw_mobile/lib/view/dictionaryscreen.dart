@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
@@ -49,6 +51,8 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   final border = const OutlineInputBorder(
       borderRadius: BorderRadius.horizontal(left: Radius.circular(24.0)));
 
+  final FlutterTts flutterTts = FlutterTts();
+
   void clearText() {
     _controller.clear();
   }
@@ -79,28 +83,41 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dictionary"),
+        leading: GestureDetector(
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              size: 35,
+            ),
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => MainScreen(
+                            user: widget.user,
+                          )));
+            }),
+        actions: <Widget>[
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                  onTap: () {},
+                  child: const IconButton(
+                    icon: Icon(
+                      Icons.headphones,
+                      size: 32,
+                      color: Colors.black,
+                    ),
+                    onPressed: null,
+                  ))),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Row(
             children: <Widget>[
-              IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (content) => MainScreen(
-                                  user: user,
-                                )));
-                  }),
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(
-                      left: 8.0, bottom: 8.0, right: 12.0),
+                      left: 12.0, bottom: 8.0, right: 12.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24.0),
@@ -120,6 +137,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                       prefixIcon: IconButton(
                         onPressed: () {
                           _search();
+                          speak(_controller.text);
                         },
                         icon: const Icon(Icons.search),
                       ),
@@ -144,15 +162,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                   ),
                 ),
               ),
-              // IconButton(
-              //   icon: const Icon(
-              //     Icons.search,
-              //     color: Colors.white,
-              //   ),
-              //   onPressed: () {
-              //     _search();
-              //   },
-              // )
             ],
           ),
         ),
@@ -164,7 +173,12 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
           builder: (BuildContext ctx, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return const Center(
-                child: Text("Enter a search word"),
+                child: Text(
+                  "Enter a search word",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
               );
             }
 
@@ -173,7 +187,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-
             return ListView.builder(
               itemCount: snapshot.data["definitions"].length,
               itemBuilder: (BuildContext context, int index) {
@@ -209,5 +222,22 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
         ),
       ),
     );
+  }
+
+  speak(String text) async {
+    if (text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Please enter some text.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          fontSize: 14.0);
+      flutterTts.speak("Please enter some text");
+      return;
+    } else {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(text);
+    }
   }
 }
