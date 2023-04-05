@@ -5,6 +5,7 @@ import 'dictionaryscreen.dart';
 import 'loginscreen.dart';
 import 'profilescreen.dart';
 import 'textscreen.dart';
+import 'uploadscreen.dart';
 
 User user = User();
 
@@ -141,12 +142,17 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () => {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const LoginScreen()))
+                      onTap: () async {
+                        if (widget.user.email == "guest@ttw.com") {
+                          _loadOptions();
+                        } else {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => UploadScreen(
+                                        user: widget.user,
+                                      )));
+                        }
                       },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
@@ -303,7 +309,7 @@ class _MainScreenState extends State<MainScreen> {
                                 size: 50,
                               ),
                               Text(
-                                "Guide Tour",
+                                "Tutorial",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
