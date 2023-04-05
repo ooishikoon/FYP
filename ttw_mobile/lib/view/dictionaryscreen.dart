@@ -146,7 +146,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                         child: Row(
                           children: [
                             IconButton(
-                              // onPressed: clearText,
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 clearText();
@@ -182,7 +181,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
             if (snapshot.data == null) {
               return const Center(
                 child: Text(
-                  "Enter a search word",
+                  "Enter word to search",
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -235,12 +234,12 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   speak(String text) async {
     if (text.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Please enter some text.",
+          msg: "Please enter the text.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           fontSize: 14.0);
-      flutterTts.speak("Please enter some text");
+      flutterTts.speak("Please enter the text");
       return;
     } else {
       await flutterTts.setLanguage('en-US');
