@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'model/user.dart';
 import 'view/introductionscreen.dart';
 
 void main() {
@@ -38,6 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    User user = User(
+      email: 'guest@ttw.com',
+      id: '0'
+    );
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(

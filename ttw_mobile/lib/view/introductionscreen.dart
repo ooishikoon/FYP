@@ -56,20 +56,30 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            buildBackground(),
-            buildContext(),
-            GestureDetector(
-              onTap: () {
-                _stop();
-              },
-            ),
-            buildSkipButton(),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth <= 600) {
+      resWidth = screenWidth;
+    } else {
+      resWidth = screenWidth * 0.75;
+    }
+    
+    return Scaffold(
+      body: Stack(
+        children: [
+          buildBackground(),
+          buildContext(),
+          GestureDetector(
+            onTap: () {
+              _stop();
+            },
+          ),
+          buildSkipButton(),
+        ],
+      ),
+    );
+  }
 
   Widget buildBackground() => ClipRRect(
         child: Container(
@@ -151,7 +161,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (content) => MainScreen(
-                                  user: user,
+                                  user: widget.user,
                                 )));
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ttw_mobile/view/registrationscreen.dart';
 import '../model/user.dart';
 import 'dictionaryscreen.dart';
 import 'loginscreen.dart';
@@ -170,11 +171,11 @@ class _MainScreenState extends State<MainScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
                               Icon(
-                                Icons.file_copy,
+                                Icons.upload,
                                 size: 50,
                               ),
                               Text(
-                                "Files",
+                                "Upload",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -298,11 +299,11 @@ class _MainScreenState extends State<MainScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
                               Icon(
-                                Icons.settings,
+                                Icons.tour,
                                 size: 50,
                               ),
                               Text(
-                                "Setting",
+                                "Guide Tour",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -314,14 +315,17 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () => {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    ProfileScreen(
-                                      user: user,
-                                    )))
+                      onTap: () async {
+                        if (widget.user.email == "guest@ttw.com") {
+                          _loadOptions();
+                        } else {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => ProfileScreen(
+                                        user: widget.user,
+                                      )));
+                        }
                       },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
@@ -366,5 +370,65 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ]),
     );
+  }
+
+  _loadOptions() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: const Text(
+              "Please login first to access.",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: _onLogin,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      minimumSize: const Size(100, 40),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    )),
+                ElevatedButton(
+                    onPressed: _onRegister,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      minimumSize: const Size(100, 40),
+                    ),
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    )),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _onLogin() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (content) => const LoginScreen()));
+  }
+
+  void _onRegister() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (content) => const RegistrationScreen()));
   }
 }
