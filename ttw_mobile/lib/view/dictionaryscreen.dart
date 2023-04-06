@@ -149,11 +149,11 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 clearText();
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                  return DictionaryScreen(user: widget.user,);
-                                }));
+                                // Navigator.pushReplacement(context,
+                                //     MaterialPageRoute(
+                                //         builder: (BuildContext context) {
+                                //   return DictionaryScreen(user: widget.user,);
+                                // }));
                               },
                             ),
                             IconButton(

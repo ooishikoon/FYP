@@ -45,23 +45,23 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(10, 20, 25, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const <Widget>[
+                  // IconButton(
+                  //   icon: const Icon(
+                  //     Icons.keyboard_arrow_left,
+                  //     size: 35,
+                  //   ),
+                  //   onPressed: () {
+                  //     Navigator.pushReplacement(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (content) => const LoginScreen()));
+                  //   },
+                  // ),
                   IconButton(
-                    icon: const Icon(
-                      Icons.keyboard_arrow_left,
-                      size: 35,
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => const LoginScreen()));
-                    },
-                  ),
-                  const IconButton(
                       onPressed: null,
                       icon: Icon(
                         Icons.headphones,

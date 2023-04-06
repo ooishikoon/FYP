@@ -37,14 +37,14 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     flutterTts = FlutterTts();
 
     Timer(const Duration(seconds: 0), () => _speak(textToBeSpoken));
-    Timer(
-        const Duration(seconds: 20),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (content) => MainScreen(
-                      user: widget.user,
-                    ))));
+    // Timer(
+    //     const Duration(seconds: 20),
+    //     () => Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (content) => MainScreen(
+    //                   user: widget.user,
+    //                 ))));
   }
 
   initializeTts() {
