@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ttw_mobile/view/registrationscreen.dart';
 import '../model/user.dart';
 import 'dictionaryscreen.dart';
+import 'filescreen.dart';
 import 'loginscreen.dart';
 import 'profilescreen.dart';
 import 'textscreen.dart';
@@ -189,7 +190,18 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () => {},
+                      onTap: () async {
+                        if (widget.user.email == "guest@ttw.com") {
+                          _loadOptions();
+                        } else {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => FileScreen(
+                                        user: widget.user,
+                                      )));
+                        }
+                      },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
                         shadowColor: Colors.amber,
