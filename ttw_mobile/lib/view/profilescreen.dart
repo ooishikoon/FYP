@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
+import '../main.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
@@ -199,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 15,
                       ),
                       MaterialButton(
-                        onPressed: () => {null},
+                        onPressed: () => {_logoutDialog()},
                         child: const Text(
                           "Logout",
                           style: TextStyle(
@@ -344,29 +345,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: const Text(
-            "Logout?",
+            "Logout",
             style: TextStyle(),
           ),
-          content: const Text("Are your sure"),
+          content: const Text("Are your sure?"),
           actions: <Widget>[
             TextButton(
               child: const Text(
                 "Yes",
-                style: TextStyle(),
+                style: TextStyle(fontSize: 17,),
               ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.setString('email', '');
-                await prefs.setString('password', '');
-                await prefs.setBool('remember', false);
-                Navigator.pop(context);
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => const MyApp(
+                            )));
               },
             ),
             TextButton(
               child: const Text(
                 "No",
-                style: TextStyle(),
+                style: TextStyle(fontSize: 17,),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
