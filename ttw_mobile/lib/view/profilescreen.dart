@@ -9,6 +9,8 @@ import '../model/user.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
+import 'settingscreen.dart';
+
 User user = User();
 
 class ProfileScreen extends StatefulWidget {
@@ -188,7 +190,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 15,
                       ),
                       MaterialButton(
-                        onPressed: () => {null},
+                        onPressed: () => {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      SettingScreen(
+                                        user: widget.user,
+                                      )))
+                        },
                         child: const Text(
                           "Setting",
                           style: TextStyle(
@@ -353,20 +363,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               child: const Text(
                 "Yes",
-                style: TextStyle(fontSize: 17,),
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               ),
               onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (content) => const MyApp(
-                            )));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (content) => const MyApp()));
               },
             ),
             TextButton(
               child: const Text(
                 "No",
-                style: TextStyle(fontSize: 17,),
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
