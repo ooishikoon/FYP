@@ -142,17 +142,13 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     InkWell(
                       splashColor: Colors.amber,
-                      onTap: () async {
-                        if (widget.user.email == "guest@ttw.com") {
-                          _loadOptions();
-                        } else {
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (content) => UploadScreen(
-                                        user: widget.user,
-                                      )));
-                        }
+                      onTap: () => {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => UploadScreen(
+                                      user: widget.user,
+                                    )))
                       },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
