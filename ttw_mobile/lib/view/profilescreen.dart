@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../main.dart';
 import '../model/user.dart';
+
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
@@ -109,37 +110,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget buildProfile() => Column(
         children: [
           SizedBox(
-            child: Row(
+            height: 200,
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: GestureDetector(
+                onTap: () => {},
+                child: SizedBox(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: Image.asset('assets/images/profile.jpg')),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: GestureDetector(
-                      onTap: () => {},
-                      child: SizedBox(
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(200),
-                            child: Image.asset('assets/images/profile.jpg')),
-                      ),
-                    ),
+                Text(
+                  widget.user.email.toString(),
+                  style: const TextStyle(
+                    fontSize: 18,
                   ),
                 ),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.user.email.toString(),
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
               ],
             ),
           ),
