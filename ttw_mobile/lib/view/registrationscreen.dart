@@ -65,7 +65,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (content) => const LoginScreen()));
+                                builder: (content) => LoginScreen()));
                       },
                     ),
                     const SizedBox(
@@ -334,8 +334,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         title: const Text("Registering..."));
     progressDialog.show();
 
-    http.post(
-        Uri.parse(CONSTANTS.server + "/fyp_ttw/php/register_user.php"),
+    http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/register_user.php"),
         body: {
           "email": _email,
           "password": _password,
@@ -352,7 +351,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => const LoginScreen()));
+                builder: (BuildContext context) => LoginScreen()));
         return;
       } else {
         Fluttertoast.showToast(

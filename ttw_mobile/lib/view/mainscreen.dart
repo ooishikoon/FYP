@@ -438,7 +438,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onLogin() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (content) => const LoginScreen()));
+        context, MaterialPageRoute(builder: (content) => LoginScreen()));
   }
 
   void _onRegister() {

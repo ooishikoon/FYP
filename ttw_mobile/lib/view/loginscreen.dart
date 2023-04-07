@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ttw_mobile/view/forgotpasswordscreen.dart';
 import '../constants.dart';
 import '../main.dart';
 import '../model/user.dart';
@@ -10,18 +11,28 @@ import 'mainscreen.dart';
 import 'registrationscreen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   late double screenHeight, screenWidth, ctrwidth;
-  bool remember = false;
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+  bool remember = false;
+  bool passwordVisible = true;
+
+  void clearTextEmail() {
+    _emailController.clear();
+  }
+
+  void clearTextPassword() {
+    _passwordController.clear();
+  }
 
   @override
   void initState() {
@@ -71,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (content) => const SplashScreen(
+                                          builder: (content) =>
+                                              const SplashScreen(
                                                 title: '',
                                               )));
                                 },
@@ -125,11 +137,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   TextFormField(
                                     controller: _emailController,
                                     decoration: InputDecoration(
-                                        hintText: 'Email',
-                                        icon: const Icon(Icons.email),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0))),
+                                      hintText: 'Email',
+                                      icon: const Icon(Icons.email),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0)),
+                                      suffixIcon: SizedBox(
+                                        width: 100,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(Icons.clear),
+                                              onPressed: () {
+                                                clearTextEmail();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -150,13 +178,42 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   TextFormField(
                                     controller: _passwordController,
-                                    obscureText: true,
+                                    obscureText: passwordVisible,
                                     decoration: InputDecoration(
-                                        hintText: 'Password',
-                                        icon: const Icon(Icons.lock),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0))),
+                                      hintText: 'Password',
+                                      icon: const Icon(Icons.lock),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0)),
+                                      suffixIcon: SizedBox(
+                                        width: 100,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(passwordVisible
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility),
+                                              onPressed: () {
+                                                setState(
+                                                  () {
+                                                    passwordVisible =
+                                                        !passwordVisible;
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(Icons.clear),
+                                              onPressed: () {
+                                                clearTextPassword();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     keyboardType: TextInputType.visiblePassword,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -204,8 +261,33 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 90,
+                            height: 70,
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text("Forgot Password? ",
+                                  style: TextStyle(fontSize: 18.0)),
+                              GestureDetector(
+                                onTap: () => {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const ForgotPasswordScreen()))
+                                },
+                                child: const Text(
+                                  " Reset here",
+                                  style: TextStyle(
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(232, 232, 163, 23),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -315,8 +397,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String _email = _emailController.text;
       String _password = _passwordController.text;
       if (_email.isNotEmpty && _password.isNotEmpty) {
-        http.post(
-            Uri.parse(CONSTANTS.server + "/fyp_ttw/php/login_user.php"),
+        http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/login_user.php"),
             body: {"email": _email, "password": _password}).then((response) {
           var data = jsonDecode(response.body);
           if (response.statusCode == 200 && data['status'] == 'success') {
@@ -331,8 +412,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (content) => MainScreen(
-                      user: user,
-                    )));
+                          user: user,
+                        )));
           } else {
             Fluttertoast.showToast(
                 msg: "Failed",
