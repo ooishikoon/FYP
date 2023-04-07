@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../main.dart';
 import '../model/user.dart';
-
+import 'verifyDeleteAccount.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 25,
                       ),
                       MaterialButton(
-                        onPressed: () => {null},
+                        onPressed: () => {deleteAccountDialog()},
                         child: const Text(
                           "Delete Account",
                           style: TextStyle(
@@ -330,6 +330,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const Text(
                 "Cancel",
                 style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteAccountDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: const Text(
+            "Delete Account",
+            style: TextStyle(),
+          ),
+          content: const Text("Are your sure?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => DeleteAccountScreen(
+                              user: widget.user,
+                            )));
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
