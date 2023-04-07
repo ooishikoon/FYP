@@ -148,9 +148,9 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 ),
                 OtpTextField(
                   numberOfFields: 6,
-                  borderColor: Color(0xFF6A53A1),
+                  borderColor: const Color(0xFF6A53A1),
                   focusedBorderColor: Color.fromARGB(255, 255, 191, 0),
-                  textStyle: TextStyle(fontSize: 30),
+                  textStyle: const TextStyle(fontSize: 30),
                   showFieldAsBox: false,
                   borderWidth: 4.0,
                   clearText: true,
@@ -175,6 +175,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                         content: Text("Invalid OTP"),
                       ));
                       print("Invalid OTP");
+                      clearText();
                     }
                   },
                 ),
