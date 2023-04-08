@@ -403,11 +403,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (response.statusCode == 200 && data['status'] == 'success') {
             User user = User.fromJson(data['data']);
             Fluttertoast.showToast(
-                msg: "Success",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                fontSize: 16.0);
+              msg: "Success",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              fontSize: 18.0,
+              textColor: Colors.white,
+              backgroundColor: Colors.amber,
+            );
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -416,11 +419,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         )));
           } else {
             Fluttertoast.showToast(
-                msg: "Failed",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                fontSize: 16.0);
+              msg: "Failed",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              fontSize: 18.0,
+              textColor: Colors.white,
+              backgroundColor: Colors.amber,
+            );
           }
         });
       }

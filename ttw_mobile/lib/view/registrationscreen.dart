@@ -6,6 +6,8 @@ import 'loginscreen.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:http/http.dart' as http;
 
+import 'verifyregistrationscreen.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -258,7 +260,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                       minimumSize: const Size(100, 40),
                                     ),
-                                    onPressed: _registerAccountDialog,
+                                    onPressed: () {
+                                      _registerAccountDialog();
+                                    },
                                   ),
                                 ],
                               ),
@@ -275,6 +279,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ],
       ),
     ));
+  }
+
+  String? validatePassword(String value) {
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
+    RegExp regex = RegExp(pattern);
+    if (value.isEmpty) {
+      return 'Please enter the password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'Enter valid password';
+      } else {
+        return null;
+      }
+    }
   }
 
   void _registerAccountDialog() {
@@ -306,7 +324,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                _registerUserAccount();
+                _verifyUserEmail();
               },
             ),
             TextButton(
@@ -324,59 +342,54 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  void _registerUserAccount() {
+  void _verifyUserEmail() {
     FocusScope.of(context).requestFocus(FocusNode());
     String _email = _emailController.text;
     String _password = _passwordController.text;
     FocusScope.of(context).unfocus();
     ProgressDialog progressDialog = ProgressDialog(context,
-        message: const Text("Registration in progress.."),
-        title: const Text("Registering..."));
+        message: const Text("Verify in progress..."),
+        title: const Text("Verifying"));
     progressDialog.show();
 
-    http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/register_user.php"),
+    http.post(
+        Uri.parse(
+            CONSTANTS.server + "/fyp_ttw/php/verify_register_user_email.php"),
         body: {
           "email": _email,
           "password": _password,
         }).then((response) {
       var data = jsonDecode(response.body);
-      if (response.statusCode == 200 && data['status'] == 'success') {
+      if (response.statusCode == 200 && data['status'] == 'failed') {
         Fluttertoast.showToast(
-            msg: "Registration Success",
+            msg: "The email had registered before",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            fontSize: 14.0);
+            fontSize: 20.0,
+            textColor: Colors.white,
+            backgroundColor: Colors.amber);
+        progressDialog.dismiss();
+        return;
+      } else if (response.statusCode == 200 && data['status'] == 'success') {
+        Fluttertoast.showToast(
+            msg: "The email registered successful",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 20.0,
+            textColor: Colors.white,
+            backgroundColor: Colors.amber);
         progressDialog.dismiss();
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => LoginScreen()));
-        return;
-      } else {
-        Fluttertoast.showToast(
-            msg: "Registration Failed",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            fontSize: 14.0);
-        progressDialog.dismiss();
+                builder: (BuildContext context) => VerifyUserEmailScreen(
+                      emailController: _emailController.text,
+                      passwordController: _passwordController.text,
+                    )));
         return;
       }
     });
-  }
-
-  String? validatePassword(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
-    RegExp regex = RegExp(pattern);
-    if (value.isEmpty) {
-      return 'Please enter the password';
-    } else {
-      if (!regex.hasMatch(value)) {
-        return 'Enter valid password';
-      } else {
-        return null;
-      }
-    }
   }
 }
