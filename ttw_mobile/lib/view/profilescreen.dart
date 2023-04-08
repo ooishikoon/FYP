@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../main.dart';
 import '../model/user.dart';
-import 'verifyDeleteAccount.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
 import 'settingscreen.dart';
+import 'verifydeleteaccscreen.dart';
 
 User user = User();
 

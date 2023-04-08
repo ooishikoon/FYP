@@ -45,12 +45,22 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
         otpType: OTPType.digitsOnly);
     if (await myauth.sendOTP() == true) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("OTP has been sent"),
+        content: Text(
+          "OTP has been sent",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ));
       print("OTP sent successful!");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Oops, OTP send failed"),
+        content: Text(
+          "Oops, OTP send failed",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ));
       print("OTP sent unsuccessful!");
     }
@@ -167,12 +177,22 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                             otp: verificationCode.toString()) ==
                         true) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("OTP is verified"),
+                        content: Text(
+                          "OTP is verified",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       ));
                       deleteAccountDialog();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Invalid OTP"),
+                        content: Text(
+                          "Invalid OTP",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       ));
                       print("Invalid OTP");
                       clearText();
@@ -214,16 +234,18 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            textColor: Colors.green,
-            fontSize: 14.0);
+            textColor: Colors.white,
+            backgroundColor: Colors.amber,
+            fontSize: 20.0);
       } else {
         Fluttertoast.showToast(
             msg: "Failed",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            textColor: Colors.red,
-            fontSize: 14.0);
+            textColor: Colors.white,
+            backgroundColor: Colors.amber,
+            fontSize: 20.0);
       }
     });
     showDialog(

@@ -69,11 +69,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void verifyOtp() async {
     if (await myauth.verifyOTP(otp: verificationCode.toString()) == true) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("OTP is verified"),
+        content: Text(
+          "OTP is verified",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Invalid OTP"),
+        content: Text(
+          "Invalid OTP",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ));
       print("Invalid OTP");
     }
@@ -247,12 +257,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           otp: verificationCode.toString()) ==
                       true) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("OTP is verified"),
+                      content: Text(
+                        "OTP is verified",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ));
                     _updatePasswordDialog();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Invalid OTP"),
+                      content: Text(
+                        "Invalid OTP",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ));
                     clearText();
                     print("Invalid OTP");
@@ -379,7 +399,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
                       textColor: Colors.red,
-                      fontSize: 14.0);
+                      fontSize: 18.0);
                   return;
                 }
                 if (_pass1editingController.text.isEmpty ||
@@ -390,7 +410,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
                       textColor: Colors.red,
-                      fontSize: 14.0);
+                      fontSize: 18.0);
                   return;
                 }
                 ProgressDialog progressDialog = ProgressDialog(context,
@@ -413,8 +433,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
-                        textColor: Colors.green,
-                        fontSize: 14.0);
+                        textColor: Colors.white,
+                        backgroundColor: Colors.amber,
+                        fontSize: 18.0);
                     progressDialog.dismiss();
                     Navigator.push(
                         context,
@@ -427,8 +448,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
-                        textColor: Colors.red,
-                        fontSize: 14.0);
+                        textColor: Colors.white,
+                        backgroundColor: Colors.amber,
+                        fontSize: 18.0);
                     progressDialog.dismiss();
                     return;
                   }
