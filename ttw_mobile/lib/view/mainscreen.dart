@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ttw_mobile/view/registrationscreen.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../model/user.dart';
+import '../provider/in_app_tour_storage.dart';
+import '../utils/in_app_tour.dart';
 import 'dictionaryscreen.dart';
 import 'filescreen.dart';
+import 'infoscreen.dart';
 import 'loginscreen.dart';
 import 'profilescreen.dart';
+import 'registrationscreen.dart';
 import 'textscreen.dart';
 import 'uploadscreen.dart';
 
@@ -23,6 +27,86 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  final GlobalKey textKey = GlobalKey();
+  final GlobalKey uploadKey = GlobalKey();
+  final GlobalKey bookrackKey = GlobalKey();
+  final GlobalKey dictionaryKey = GlobalKey();
+  final GlobalKey tourKey = GlobalKey();
+  final GlobalKey profileKey = GlobalKey();
+
+  late TutorialCoachMark tutorialCoachMark;
+
+  bool isSaved = false;
+
+  //Default guide tour with save state
+  void _initMainInAppTour() {
+    tutorialCoachMark = TutorialCoachMark(
+        targets: mainTargetsPage(
+          textKey: textKey,
+          uploadKey: uploadKey,
+          bookrackKey: bookrackKey,
+          dictionaryKey: dictionaryKey,
+          tourKey: tourKey,
+          profileKey: profileKey,
+        ),
+        colorShadow: Colors.amber,
+        paddingFocus: 10,
+        hideSkip: false,
+        opacityShadow: 0.8,
+        onFinish: () {
+          SaveInAppTour().saveMainStatus();
+          print("Completed");
+        });
+  }
+
+  void _showInAppTour() {
+    Future.delayed(const Duration(seconds: 2), () {
+      // tutorialCoachMark.show(context: context);
+      SaveInAppTour().getMainStatus().then((value) {
+        if (value == false) {
+          tutorialCoachMark.show(context: context);
+          print("User has not seen this page");
+        } else {
+          print("User has seen this page");
+        }
+      });
+    });
+  }
+
+  //Guide Tour Button
+    void _initMainInAppTour2() {
+    tutorialCoachMark = TutorialCoachMark(
+        targets: mainTargetsPage(
+          textKey: textKey,
+          uploadKey: uploadKey,
+          bookrackKey: bookrackKey,
+          dictionaryKey: dictionaryKey,
+          tourKey: tourKey,
+          profileKey: profileKey,
+        ),
+        colorShadow: Colors.amber,
+        paddingFocus: 10,
+        hideSkip: false,
+        opacityShadow: 0.8,
+        onFinish: () {
+          print("Completed");
+        });
+  }
+
+  void _showInAppTour2() {
+    Future.delayed(const Duration(seconds: 2), () {
+      tutorialCoachMark.show(context: context);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO implement initState
+    _initMainInAppTour();
+    _showInAppTour();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.fromLTRB(10, 20, 25, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const <Widget>[
+                children: <Widget>[
                   // IconButton(
                   //   icon: const Icon(
                   //     Icons.keyboard_arrow_left,
@@ -61,12 +145,32 @@ class _MainScreenState extends State<MainScreen> {
                   //             builder: (content) => const LoginScreen()));
                   //   },
                   // ),
-                  IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.headphones,
-                        size: 35,
-                        color: Colors.black,
+                  // IconButton(
+                  //     onPressed: null,
+                  //     icon: Icon(
+                  //       Icons.perm_device_information,
+                  //       size: 35,
+                  //       color: Colors.black,
+                  //     )),
+                  SizedBox(
+                      height: 45,
+                      child: GestureDetector(
+                        onTap: () => {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => InfoScreen(
+                                        user: widget.user,
+                                      )))
+                        },
+                        child: const SizedBox(
+                          child: ClipRRect(
+                            child: Image(
+                              image: AssetImage('assets/images/info_icon.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
                       )),
                 ],
               ),
@@ -95,6 +199,7 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisSpacing: 5,
                   children: [
                     InkWell(
+                      key: textKey,
                       splashColor: Colors.amber,
                       onTap: () => {
                         Navigator.pushReplacement(
@@ -126,9 +231,20 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.text_format,
-                                size: 50,
+                              // Icon(
+                              //   Icons.text_format,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/text_editor.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
                                 "Text",
@@ -142,6 +258,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     InkWell(
+                      key: uploadKey,
                       splashColor: Colors.amber,
                       onTap: () => {
                         Navigator.pushReplacement(
@@ -173,9 +290,20 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.upload,
-                                size: 50,
+                              // Icon(
+                              //   Icons.upload,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/upload_icon.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
                                 "Upload",
@@ -189,6 +317,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     InkWell(
+                      key: bookrackKey,
                       splashColor: Colors.amber,
                       onTap: () async {
                         if (widget.user.email == "guest@ttw.com") {
@@ -224,12 +353,23 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.library_books,
-                                size: 50,
+                              // Icon(
+                              //   Icons.library_books,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/books_learn_library_school_icon.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
-                                "Book Rak",
+                                "Book Rack",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -240,6 +380,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     InkWell(
+                      key: dictionaryKey,
                       splashColor: Colors.amber,
                       onTap: () => {
                         Navigator.pushReplacement(
@@ -272,9 +413,20 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.book,
-                                size: 50,
+                              // Icon(
+                              //   Icons.book,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/dictionary_icon.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
                                 "Dictionary",
@@ -288,8 +440,12 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     InkWell(
+                      key: tourKey,
                       splashColor: Colors.amber,
-                      onTap: () => {},
+                      onTap: () => {
+                        _initMainInAppTour2(),
+                        _showInAppTour2(),
+                      },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
                         shadowColor: Colors.amber,
@@ -312,12 +468,23 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.tour,
-                                size: 50,
+                              // Icon(
+                              //   Icons.tour,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/guide_tour.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
-                                "Tutorial",
+                                "Guide Tour",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -328,6 +495,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     InkWell(
+                      key: profileKey,
                       splashColor: Colors.amber,
                       onTap: () async {
                         if (widget.user.email == "guest@ttw.com") {
@@ -363,9 +531,20 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              Icon(
-                                Icons.person,
-                                size: 50,
+                              // Icon(
+                              //   Icons.person,
+                              //   size: 50,
+                              // ),
+                              SizedBox(
+                                height: 90,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(200),
+                                  child: Image(
+                                    image: AssetImage(
+                                        'assets/images/user_icon.png'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                               Text(
                                 "Profile",
