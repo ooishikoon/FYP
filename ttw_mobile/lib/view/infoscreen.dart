@@ -6,19 +6,20 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 User user = User();
 
-class IntroductionScreen extends StatefulWidget {
+class InfoScreen extends StatefulWidget {
   final User user;
-  const IntroductionScreen({
+  const InfoScreen({
     Key? key,
     required this.user,
   }) : super(key: key);
 
   @override
-  State<IntroductionScreen> createState() => _IntroductionScreenState();
+  State<InfoScreen> createState() => _InfoScreenState();
 }
 
-class _IntroductionScreenState extends State<IntroductionScreen> {
+class _InfoScreenState extends State<InfoScreen> {
   late double screenHeight, screenWidth, resWidth;
+  late Timer timerSkip, timerSpeak;
 
   //FlutterTts instance
   late FlutterTts flutterTts;
@@ -36,15 +37,24 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     //Initialize the FlutterTts instance
     flutterTts = FlutterTts();
 
-    Timer(const Duration(seconds: 0), () => _speak(textToBeSpoken));
-    // Timer(
-    //     const Duration(seconds: 20),
-    //     () => Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (content) => MainScreen(
-    //                   user: widget.user,
-    //                 ))));
+    timerSpeak =
+        Timer(const Duration(seconds: 0), () => _speak(textToBeSpoken));
+
+    timerSkip = Timer(
+        const Duration(seconds: 20),
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => MainScreen(
+                      user: widget.user,
+                    ))));
+  }
+
+  @override
+  void dispose() {
+    timerSkip.cancel();
+    timerSpeak.cancel();
+    super.dispose();
   }
 
   initializeTts() {
@@ -164,6 +174,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     minimumSize: const Size(100, 40),
                   ),
                   onPressed: () {
+                    timerSkip.cancel();
+                    timerSpeak.cancel();
                     _stop();
                     Navigator.pushReplacement(
                         context,

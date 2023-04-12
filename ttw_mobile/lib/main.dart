@@ -4,7 +4,8 @@ import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'model/user.dart';
-import 'view/introductionscreen.dart';
+import 'view/infoscreen.dart';
+import 'view/mainscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (content) => IntroductionScreen(user: user))));
+                builder: (content) => MainScreen(user: user))));
   }
 
   @override
