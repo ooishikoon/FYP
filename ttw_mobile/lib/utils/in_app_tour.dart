@@ -22,6 +22,9 @@ List<TargetFocus> mainTargetsPage({
         TargetContent(
             align: ContentAlign.bottom,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak(
+                  "Button at the upper left is to convert the text to speech.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -29,7 +32,7 @@ List<TargetFocus> mainTargetsPage({
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
                     Text(
-                      "This button to convert the text to speech.",
+                      "This is the button to convert the text to speech.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30,
@@ -42,7 +45,7 @@ List<TargetFocus> mainTargetsPage({
             })
       ]));
 
-  //Uplaod
+  //Upload
   targets.add(TargetFocus(
       keyTarget: uploadKey,
       alignSkip: Alignment.bottomRight,
@@ -52,6 +55,8 @@ List<TargetFocus> mainTargetsPage({
         TargetContent(
             align: ContentAlign.bottom,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak("Button at the upper right is to upload file.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -80,8 +85,11 @@ List<TargetFocus> mainTargetsPage({
       shape: ShapeLightFocus.RRect,
       contents: [
         TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak(
+                  "Button at the middle left is to view your uploaded file.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -110,8 +118,10 @@ List<TargetFocus> mainTargetsPage({
       shape: ShapeLightFocus.RRect,
       contents: [
         TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak("Button at the middle right is dictionary.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -142,6 +152,8 @@ List<TargetFocus> mainTargetsPage({
         TargetContent(
             align: ContentAlign.top,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak("Button at the bottom left is guide tour.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
@@ -149,7 +161,7 @@ List<TargetFocus> mainTargetsPage({
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
                     Text(
-                      "This is the button to review the guide tour.",
+                      "This is the button to view the guide tour.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30,
@@ -172,6 +184,8 @@ List<TargetFocus> mainTargetsPage({
         TargetContent(
             align: ContentAlign.top,
             builder: (context, controller) {
+              FlutterTts flutterTts = FlutterTts();
+              flutterTts.speak("Button at the bottom right is your profile.");
               return Container(
                 alignment: Alignment.center,
                 child: Column(
