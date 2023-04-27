@@ -1,7 +1,10 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
+import 'package:http/http.dart' as http;
 
 User user = User();
 
@@ -22,6 +25,8 @@ class _UploadScreenState extends State<UploadScreen> {
 
   final FlutterTts flutterTts = FlutterTts();
   final TextEditingController textEditingController = TextEditingController();
+
+  File file = File("");
 
   void clearText() {
     textEditingController.clear();
@@ -94,138 +99,153 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget buildContext() => ListView(
           padding: const EdgeInsets.fromLTRB(0, 40, 10, 0),
           shrinkWrap: true,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.file_copy,
-                        size: 35,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "Upload file",
-                        style: TextStyle(
-                          fontSize: 20,
+          children: <Widget>[
+            GestureDetector(
+              // onTap: pickImage,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      children: const [
+                        SizedBox(
+                          height: 38,
+                          child: SizedBox(
+                            child: ClipRRect(
+                              child: Image(
+                                image: AssetImage('assets/images/pdf_icon.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "Upload PDF",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 35,
-                ),
-              ],
+                  const Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 35,
+                  ),
+                ],
+              ),
             ),
             const Divider(
               height: 20,
               color: Colors.black,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.image,
-                        size: 35,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "Upload image",
-                        style: TextStyle(
-                          fontSize: 20,
+            GestureDetector(
+              onTap: pickFile,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      children: const [
+                        SizedBox(
+                          height: 38,
+                          child: SizedBox(
+                            child: ClipRRect(
+                              child: Image(
+                                image:
+                                    AssetImage('assets/images/word_icon.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "Upload word",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 35,
-                ),
-              ],
+                  const Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 35,
+                  ),
+                ],
+              ),
             ),
             const Divider(
               height: 20,
               color: Colors.black,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.text_fields,
-                        size: 35,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "Upload Text",
-                        style: TextStyle(
-                          fontSize: 20,
+            GestureDetector(
+              onTap: pickImage,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      children: const [
+                        SizedBox(
+                          height: 38,
+                          child: SizedBox(
+                            child: ClipRRect(
+                              child: Image(
+                                image:
+                                    AssetImage('assets/images/image_icon.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "Upload image",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 35,
-                ),
-              ],
+                  const Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 35,
+                  ),
+                ],
+              ),
             ),
             const Divider(
               height: 20,
               color: Colors.black,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.document_scanner,
-                        size: 35,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "Scan",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 35,
-                ),
-              ],
-            ),
-            const Divider(
-              height: 20,
-              color: Colors.black,
-            ),
+            // Image.file(file),
           ]);
+
+  void pickFile() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.any);
+  }
+
+  void pickImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      setState(() {
+        file = File(result.files.single.path ?? "");
+      });
+    }
+  }
 }
