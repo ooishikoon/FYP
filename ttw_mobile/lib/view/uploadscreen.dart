@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../model/user.dart';
 import '../upload/pdfscreen.dart';
+import '../upload/wordscreen.dart';
 import 'mainscreen.dart';
-import 'package:http/http.dart' as http;
 
 User user = User();
 
@@ -107,7 +107,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (content) => PdfScreen(
+                        builder: (content) => RecognizePdfScreen(
                               user: user,
                             )))
               },
