@@ -57,6 +57,10 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     _controller.clear();
   }
 
+  stop() async {
+    await flutterTts.stop();
+  }
+
   _search() async {
     if (_controller.text == null || _controller.text.length == 0) {
       _streamController.add(null);
@@ -89,6 +93,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
               size: 35,
             ),
             onTap: () {
+              stop();
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -149,6 +154,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 clearText();
+                                stop();
                                 // Navigator.pushReplacement(context,
                                 //     MaterialPageRoute(
                                 //         builder: (BuildContext context) {
@@ -214,13 +220,22 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                             "(" +
                             snapshot.data["definitions"][index]["type"] +
                             ")"),
+                        trailing: IconButton(
+                          onPressed: () {
+                            speak(_controller.text.trim() +
+                                " " +
+                                snapshot.data["definitions"][index]
+                                    ["definition"]);
+                          },
+                          icon: Icon(Icons.volume_up),
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                           snapshot.data["definitions"][index]["definition"]),
-                    )
+                    ),
                   ],
                 );
               },
