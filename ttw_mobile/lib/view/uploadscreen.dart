@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../model/user.dart';
+import '../upload/pdfscreen.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
@@ -101,7 +102,15 @@ class _UploadScreenState extends State<UploadScreen> {
           shrinkWrap: true,
           children: <Widget>[
             GestureDetector(
-              // onTap: pickImage,
+              // onTap: pickFile,
+              onTap: () => {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => PdfScreen(
+                              user: user,
+                            )))
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
