@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ttw_mobile/view/uploadscreen.dart';
 
 import '../model/user.dart';
@@ -100,9 +101,11 @@ class _PdfScreenState extends State<PdfScreen> {
         ),
         onPressed: null,
       );
+
   Widget buildContext() => Scaffold(
         body: Container(
-          color: Colors.yellow.withOpacity(0.1), // Set the background color of the Container widget
+          color: Colors.yellow.withOpacity(
+              0.1),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
