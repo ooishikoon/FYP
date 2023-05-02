@@ -264,7 +264,7 @@ class _RecognizePageState extends State<RecognizePage> {
       var jsondata = jsonDecode(response.body);
       if (response.statusCode == 200 && jsondata['status'] == 'success') {
         Fluttertoast.showToast(
-          msg: "Success",
+          msg: "Image saved successfully.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -280,7 +280,7 @@ class _RecognizePageState extends State<RecognizePage> {
         return;
       } else {
         Fluttertoast.showToast(
-            msg: "Failed",
+            msg: "Failed to save Image. Please try again later.",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
