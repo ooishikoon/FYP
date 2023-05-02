@@ -115,7 +115,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (content) => RecognizePdfScreen(
-                              user: user,
+                              user: widget.user,
                             )))
               },
               child: Row(
@@ -165,7 +165,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (content) => RecognizeWordScreen(
-                              user: user,
+                              user: widget.user,
                             )))
               },
               child: Row(
@@ -216,7 +216,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (content) => RecognizeTxtScreen(
-                              user: user,
+                              user: widget.user,
                             )))
               },
               child: Row(
@@ -261,7 +261,6 @@ class _UploadScreenState extends State<UploadScreen> {
               color: Colors.black,
             ),
             GestureDetector(
-              // onTap: pickImage,
               onTap: () {
                 imagePickerModal(context, onCameraTap: () {
                   print("Camera");
@@ -274,6 +273,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             CupertinoPageRoute(
                               builder: (_) => RecognizePage(
                                 path: value,
+                                user: widget.user,
                               ),
                             ),
                           );
@@ -292,6 +292,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             CupertinoPageRoute(
                               builder: (_) => RecognizePage(
                                 path: value,
+                                user: widget.user,
                               ),
                             ),
                           );
