@@ -109,7 +109,6 @@ class _UploadScreenState extends State<UploadScreen> {
           shrinkWrap: true,
           children: <Widget>[
             GestureDetector(
-              // onTap: pickFile,
               onTap: () => {
                 Navigator.pushReplacement(
                     context,
@@ -345,19 +344,4 @@ class _UploadScreenState extends State<UploadScreen> {
               color: Colors.black,
             ),
           ]);
-
-  void pickFile() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(type: FileType.any);
-  }
-
-  // void pickImage() async {
-  //   FilePickerResult? result =
-  //       await FilePicker.platform.pickFiles(type: FileType.image);
-  //   if (result != null) {
-  //     setState(() {
-  //       file = File(result.files.single.path ?? "");
-  //     });
-  //   }
-  // }
 }

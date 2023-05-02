@@ -1,10 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:ndialog/ndialog.dart';
 import 'package:pdf_text/pdf_text.dart';
 import 'package:ttw_mobile/view/uploadscreen.dart';
 
+import '../constants.dart';
 import '../model/user.dart';
+import '../view/loginscreen.dart';
+import '../view/registrationscreen.dart';
 
 User user = User();
 
@@ -35,6 +44,9 @@ class RecognizePdfScreen extends StatefulWidget {
 
 class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
   TextEditingController controller = TextEditingController();
+  final TextEditingController fileName = TextEditingController();
+
+  late final String? files;
 
   FlutterTts flutterTts = FlutterTts();
 
@@ -54,15 +66,13 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
   }
 
   Future<String> pickDocument() async {
-    //Picked Image For Products
-
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf'],
         allowCompression: true);
 
     if (result != null) {
-      final String? files = result.files.single.path;
+      files = result.files.single.path;
       return files!;
     } else {
       // User canceled the picker
@@ -85,12 +95,34 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (content) => UploadScreen(
-                          user: user,
+                          user: widget.user,
                         )));
           },
         ),
         title: const Text("Read PDF"),
         actions: [
+          IconButton(
+              onPressed: () {
+                if (controller.text.isNotEmpty) {
+                  if (widget.user.email == "guest@ttw.com") {
+                    _loadOptions();
+                  } else {
+                    showSaveFileDialog();
+                  }
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "Please select a pdf file",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    fontSize: 16.0,
+                  );
+                }
+              },
+              icon: const Icon(
+                Icons.save,
+                size: 28,
+              )),
           IconButton(
               onPressed: () {
                 stop();
@@ -140,5 +172,151 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
         label: const Icon(Icons.attach_file),
       ),
     );
+  }
+
+  _loadOptions() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: const Text(
+              "Please login first to access.",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: _onLogin,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      minimumSize: const Size(100, 40),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    )),
+                ElevatedButton(
+                    onPressed: _onRegister,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      shape: const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      minimumSize: const Size(100, 40),
+                    ),
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    )),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _onLogin() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (content) => LoginScreen()));
+  }
+
+  void _onRegister() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (content) => const RegistrationScreen()));
+  }
+
+  void showSaveFileDialog() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Save file'),
+          content: TextField(
+            controller: fileName,
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+              hintText: 'Enter file name',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              // onPressed: () => savePdf(File(files!)),
+              onPressed: () => savePdf(),
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void savePdf() async {
+    ProgressDialog progressDialog = ProgressDialog(context,
+        message: const Text("Saving file in progress.."),
+        title: const Text("Saving..."));
+    progressDialog.show();
+    Navigator.of(context).pop();
+
+    final bytes = File(files!).readAsBytesSync();
+    final base64Pdf = base64Encode(bytes);
+
+    Map<String, String> headers = {
+      "Content-type": "application/x-www-form-urlencoded"
+    };
+
+    var data = {
+      'email': widget.user.email.toString(),
+      'filename': fileName.text,
+      'file_data': base64Pdf,
+    };
+
+    var response = await http.post(
+        Uri.parse(CONSTANTS.server + "/fyp_ttw/php/savePdf.php"),
+        headers: headers,
+        body: data);
+
+    progressDialog.dismiss();
+
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+        msg: "PDF saved successfully.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        fontSize: 16.0,
+      );
+      Navigator.of(context).pop();
+      progressDialog.dismiss();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => UploadScreen(
+                    user: widget.user,
+                  )));
+      return;
+    } else {
+      Fluttertoast.showToast(
+        msg: "Failed to save PDF. Please try again later.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        fontSize: 16.0,
+      );
+      progressDialog.dismiss();
+      return;
+    }
   }
 }
