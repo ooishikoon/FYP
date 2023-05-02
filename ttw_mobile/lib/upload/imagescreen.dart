@@ -195,7 +195,6 @@ class _RecognizePageState extends State<RecognizePage> {
   }
 
   void showSaveFileDialog() async {
-    // TextEditingController fileName = TextEditingController();
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -234,7 +233,7 @@ class _RecognizePageState extends State<RecognizePage> {
 
     if (fileName.text.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Please fill in the fill name",
+          msg: "Please fill in the file name",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
