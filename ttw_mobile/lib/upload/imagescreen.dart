@@ -72,7 +72,6 @@ class _RecognizePageState extends State<RecognizePage> {
                     _loadOptions();
                   } else {
                     showSaveFileDialog();
-                    // saveImage(File(widget.path!));
                   }
                 },
                 icon: const Icon(
