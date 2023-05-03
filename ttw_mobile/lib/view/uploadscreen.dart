@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -7,8 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import '../model/user.dart';
 import '../upload/imagescreen.dart';
 import '../upload/pdfscreen.dart';
-import '../upload/txtscreen.dart';
-import '../upload/wordscreen.dart';
 import '../utils/image_cropper_page.dart';
 import '../utils/image_picker_class.dart';
 import '../widgets/modal_dialog.dart';
@@ -140,107 +137,6 @@ class _UploadScreenState extends State<UploadScreen> {
                         ),
                         Text(
                           "Upload PDF",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 35,
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              height: 20,
-              color: Colors.black,
-            ),
-            GestureDetector(
-              onTap: () => {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (content) => RecognizeWordScreen(
-                              user: widget.user,
-                            )))
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: Row(
-                      children: const [
-                        SizedBox(
-                          height: 38,
-                          child: SizedBox(
-                            child: ClipRRect(
-                              child: Image(
-                                image:
-                                    AssetImage('assets/images/word_icon.png'),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "Upload word",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 35,
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              height: 20,
-              color: Colors.black,
-            ),
-            GestureDetector(
-              onTap: () => {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (content) => RecognizeTxtScreen(
-                              user: widget.user,
-                            )))
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: Row(
-                      children: const [
-                        SizedBox(
-                          height: 38,
-                          child: SizedBox(
-                            child: ClipRRect(
-                              child: Image(
-                                image: AssetImage('assets/images/txt_icon.png'),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "Upload txt",
                           style: TextStyle(
                             fontSize: 20,
                           ),

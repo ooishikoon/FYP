@@ -7,8 +7,6 @@ import '../main.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
-
-import 'settingscreen.dart';
 import 'verifydeleteaccscreen.dart';
 
 User user = User();
@@ -175,26 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () => {deleteAccountDialog()},
                         child: const Text(
                           "Delete Account",
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        height: 15,
-                      ),
-                      MaterialButton(
-                        onPressed: () => {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      SettingScreen(
-                                        user: widget.user,
-                                      )))
-                        },
-                        child: const Text(
-                          "Setting",
                           style: TextStyle(
                             fontSize: 22,
                           ),
