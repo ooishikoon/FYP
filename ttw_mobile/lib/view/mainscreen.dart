@@ -206,7 +206,7 @@ class _MainScreenState extends State<MainScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => TextScreen(
-                                      user: user,
+                                      user: widget.user,
                                     )))
                       },
                       child: Card(
