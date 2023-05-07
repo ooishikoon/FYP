@@ -9,15 +9,15 @@ include_once("dbconnect.php");
 
 // Get the user email and image data from the POST request
 $user_email = $_POST['email'];
-$file_name = $_POST['filename'];
+$image_name = $_POST['imagename'];
 $image_data = $_POST['image'];
 
 // Prepare the SQL statement
-$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_file (file_id, file_name, file, user_email) VALUES (?, ?, ?, ?)');
+$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_image (image_id, image_name, image, user_email) VALUES (?, ?, ?, ?)');
 
 // Set the parameters and bind them to the statement
-$file_id = null; // file_id is auto-incremented
-mysqli_stmt_bind_param($stmt, 'ssss', $file_id, $file_name, $image_data, $user_email);
+$image_id = null; // file_id is auto-incremented
+mysqli_stmt_bind_param($stmt, 'ssss', $image_id, $image_name, $image_data, $user_email);
 
 // Execute the statement and check for errors
 if (!mysqli_stmt_execute($stmt)) {
@@ -27,14 +27,14 @@ if (!mysqli_stmt_execute($stmt)) {
 }
 
 // Get the ID of the inserted row
-$file_id = mysqli_insert_id($conn);
+$image_id = mysqli_insert_id($conn);
 
 // Save the file to a folder
 $uploads_dir = __DIR__ . '/../assets/image/';
 if (!file_exists($uploads_dir)) {
     mkdir($uploads_dir, 0777, true);
 }
-$file_path = $uploads_dir . $file_id . '.jpg';
+$file_path = $uploads_dir . $image_id . '.jpg';
 $image_data = base64_decode($image_data);
 if (!file_put_contents($file_path, $image_data)) {
     $response = array('status' => 'failed', 'data' => null);

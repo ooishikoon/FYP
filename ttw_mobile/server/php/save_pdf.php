@@ -9,18 +9,18 @@ include_once("dbconnect.php");
 
 // Get the user email and image data from the POST request
 $user_email = $_POST['email'];
-$file_name = $_POST['filename'];
-$file = $_POST['file_data'];
+$pdf_name = $_POST['pdfname'];
+$pdf = $_POST['pdf_file'];
 
 // Decode base64 data
-$pdf_data = base64_decode($file);
+$pdf_data = base64_decode($pdf);
 
 // Prepare the SQL statement
-$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_file (file_id, file_name, file, user_email) VALUES (?, ?, ?, ?)');
+$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_pdf (pdf_id, pdf_name, pdf, user_email) VALUES (?, ?, ?, ?)');
 
 // Set the parameters and bind them to the statement
-$file_id = null; // file_id is auto-incremented
-mysqli_stmt_bind_param($stmt, 'ssss', $file_id, $file_name, $pdf_data, $user_email);
+$pdf_id = null; // file_id is auto-incremented
+mysqli_stmt_bind_param($stmt, 'ssss', $pdf_id, $pdf_name, $pdf_data, $user_email);
 
 // Execute the statement and check for errors
 if (!mysqli_stmt_execute($stmt)) {
@@ -30,14 +30,14 @@ if (!mysqli_stmt_execute($stmt)) {
 }
 
 // Get the ID of the inserted row
-$file_id = mysqli_insert_id($conn);
+$pdf_id = mysqli_insert_id($conn);
 
 // Save the file to a folder
 $uploads_dir = __DIR__ . '/../assets/pdf/';
 if (!file_exists($uploads_dir)) {
     mkdir($uploads_dir, 0777, true);
 }
-$file_path = $uploads_dir . $file_id . '.pdf';
+$file_path = $uploads_dir . $pdf_id . '.pdf';
 if (!file_put_contents($file_path, $pdf_data)) {
     $response = array('status' => 'failed', 'data' => null);
     sendJsonResponse($response);
