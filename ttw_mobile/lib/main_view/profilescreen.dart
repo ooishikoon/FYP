@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
 import '../main.dart';
@@ -24,6 +25,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro =
+      "Profile Screen. Profile picture. Email. Change password button. Delete account button. Log out button.";
 
   @override
   void initState() {
@@ -53,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     buildReturnButton(),
                     buildTitle(),
-                    buildSpeech(),
+                    buildSpeechButton(),
                   ],
                 ),
                 Padding(
@@ -82,6 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -95,13 +102,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
       );
 
-  Widget buildSpeech() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildProfile() => Column(
@@ -158,7 +165,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shrinkWrap: true,
                     children: [
                       MaterialButton(
-                        onPressed: () => {_updatePasswordDialog()},
+                        onPressed: () => {
+                          _updatePasswordDialog(),
+                          stop(),
+                        },
                         child: const Text(
                           "Change Password",
                           style: TextStyle(
@@ -170,7 +180,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 25,
                       ),
                       MaterialButton(
-                        onPressed: () => {deleteAccountDialog()},
+                        onPressed: () => {
+                          deleteAccountDialog(),
+                          stop(),
+                        },
                         child: const Text(
                           "Delete Account",
                           style: TextStyle(
@@ -182,7 +195,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 15,
                       ),
                       MaterialButton(
-                        onPressed: () => {_logoutDialog()},
+                        onPressed: () => {
+                          _logoutDialog(),
+                          stop(),
+                        },
                         child: const Text(
                           "Logout",
                           style: TextStyle(
@@ -197,6 +213,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ))
         ],
       );
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 
   void _updatePasswordDialog() {
     TextEditingController _pass1editingController = TextEditingController();

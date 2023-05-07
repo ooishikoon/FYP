@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -17,6 +18,11 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro =
+      "Verify Forgot Password Screen. Email Authentication. Email text field. Send OTP button. OTP text field.";
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController verificationCode = TextEditingController();
@@ -149,17 +155,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (content) => LoginScreen()));
       });
 
-  Widget buildSpeechButton() => const IconButton(
+  Widget buildSpeechButton() => IconButton(
         icon: Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildContext() => Column(
@@ -189,6 +196,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     TextButton(
                         onPressed: () {
                           sendOtp();
+                          stop();
                         },
                         child: const Text(
                           "Send OTP",
@@ -281,6 +289,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
         ],
       );
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 
   void _updatePasswordDialog() {
     TextEditingController _pass1editingController = TextEditingController();

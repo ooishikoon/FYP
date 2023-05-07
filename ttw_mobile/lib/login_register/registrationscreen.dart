@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
 import '../verify_otp/verifyregistrationscreen.dart';
@@ -15,6 +16,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  FlutterTts flutterTts = FlutterTts();
+
+  String text =
+      "Registration screen. Create Account. Email text field. Password text field. Re-enter password text field. Register button.";
+      
   bool _passwordVisible = true;
 
   late double screenHeight, screenWidth, resWidth;
@@ -82,9 +88,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(
                       width: 40,
                     ),
-                    const IconButton(
-                        onPressed: null,
-                        icon: Icon(
+                    IconButton(
+                        onPressed: () => speakIntro(text),
+                        icon: const Icon(
                           Icons.headphones,
                           size: 35,
                           color: Colors.black,
@@ -260,6 +266,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       minimumSize: const Size(100, 40),
                                     ),
                                     onPressed: () {
+                                      stop();
                                       _registerAccountDialog();
                                     },
                                   ),
@@ -278,6 +285,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ],
       ),
     ));
+  }
+
+  
+    speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
   }
 
   String? validatePassword(String value) {

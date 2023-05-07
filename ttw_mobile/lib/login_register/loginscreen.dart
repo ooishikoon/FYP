@@ -1,22 +1,29 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ttw_mobile/verify_otp/forgotpasswordscreen.dart';
 import '../constants.dart';
-import '../main.dart';
 import '../main_view/mainscreen.dart';
 import '../model/user.dart';
 import 'registrationscreen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   late double screenHeight, screenWidth, ctrwidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro =
+      "Login screen. Email text field. Password text field. Remember me checkbox. Login button. Forgot password? Reset here button. No account? Register here button.";
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -71,25 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 20, 20, 10),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               IconButton(
-                                icon: const Icon(
-                                  Icons.keyboard_arrow_left,
-                                  size: 35,
-                                ),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (content) =>
-                                              const SplashScreen(
-                                                title: '',
-                                              )));
-                                },
-                              ),
-                              const IconButton(
-                                  onPressed: null,
+                                  onPressed: () => speakIntro(intro),
                                   icon: Icon(
                                     Icons.headphones,
                                     size: 35,
@@ -240,20 +232,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       ElevatedButton.icon(
-                                        icon: const Icon(
-                                          Icons.login_sharp,
-                                          size: 20.0,
-                                        ),
-                                        label: const Text('Login'),
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
+                                          icon: const Icon(
+                                            Icons.login_sharp,
+                                            size: 20.0,
                                           ),
-                                          minimumSize: const Size(100, 40),
-                                        ),
-                                        onPressed: _loginUser,
-                                      ),
+                                          label: const Text('Login'),
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                            ),
+                                            minimumSize: const Size(100, 40),
+                                          ),
+                                          onPressed: () {
+                                            stop();
+                                            _loginUser();
+                                          }),
                                     ],
                                   ),
                                 ],
@@ -270,6 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(fontSize: 18.0)),
                               GestureDetector(
                                 onTap: () => {
+                                  stop(),
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -295,6 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(fontSize: 18.0)),
                               GestureDetector(
                                 onTap: () => {
+                                  stop(),
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -323,6 +319,18 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
   }
 
   void saveRemovePref(bool value) async {

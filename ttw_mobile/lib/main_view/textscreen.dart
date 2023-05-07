@@ -22,6 +22,10 @@ class _TextScreenState extends State<TextScreen> {
   late double screenHeight, screenWidth, resWidth;
 
   final FlutterTts flutterTts = FlutterTts();
+
+    String intro =
+      "Text Screen. Text field. Clear text button. Convert button.";
+
   final TextEditingController textEditingController = TextEditingController();
 
   void clearText() {
@@ -83,6 +87,7 @@ class _TextScreenState extends State<TextScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -91,13 +96,13 @@ class _TextScreenState extends State<TextScreen> {
                     )));
       });
 
-  Widget buildSpeechButton() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speak(intro),
       );
 
   Widget buildContext() => Container(
@@ -167,5 +172,17 @@ class _TextScreenState extends State<TextScreen> {
       await flutterTts.setPitch(1); // 0.5 to 1.5
       await flutterTts.speak(text);
     }
+  }
+
+    speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
   }
 }

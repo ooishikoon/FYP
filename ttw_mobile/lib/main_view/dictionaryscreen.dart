@@ -53,6 +53,9 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
 
   final FlutterTts flutterTts = FlutterTts();
 
+  String intro =
+      "Dictionary Screen. Search for a word text field. Clear text button. Enter word to search.";
+
   void clearText() {
     _controller.clear();
   }
@@ -106,13 +109,13 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                   onTap: () {},
-                  child: const IconButton(
-                    icon: Icon(
+                  child: IconButton(
+                    icon: const Icon(
                       Icons.headphones,
                       size: 32,
                       color: Colors.black,
                     ),
-                    onPressed: null,
+                    onPressed: () => speakIntro(intro),
                   ))),
         ],
         bottom: PreferredSize(
@@ -149,24 +152,14 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                       suffixIcon: SizedBox(
                         width: 100,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 clearText();
                                 stop();
-                                // Navigator.pushReplacement(context,
-                                //     MaterialPageRoute(
-                                //         builder: (BuildContext context) {
-                                //   return DictionaryScreen(user: widget.user,);
-                                // }));
                               },
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                print('mic button pressed');
-                              },
-                              icon: const Icon(Icons.mic),
                             ),
                           ],
                         ),
@@ -244,6 +237,14 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
         ),
       ),
     );
+  }
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
   }
 
   speak(String text) async {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ndialog/ndialog.dart';
 import '../constants.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart' as http;
 import '../login_register/loginscreen.dart';
 import '../login_register/registrationscreen.dart';
-
 
 class VerifyUserEmailScreen extends StatefulWidget {
   final String emailController;
@@ -26,6 +26,11 @@ class VerifyUserEmailScreen extends StatefulWidget {
 
 class _VerifyUserEmailScreenState extends State<VerifyUserEmailScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro =
+      "Verify Registration Screen. Enter the verification code sent to your email. OTP text field. Didn't get the code button.";
 
   final TextEditingController verificationCode = TextEditingController();
 
@@ -119,24 +124,24 @@ class _VerifyUserEmailScreenState extends State<VerifyUserEmailScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (content) => const RegistrationScreen()));
       });
 
-  Widget buildSpeechButton() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildContext() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
@@ -202,6 +207,7 @@ class _VerifyUserEmailScreenState extends State<VerifyUserEmailScreen> {
                 TextButton(
                   onPressed: () {
                     sendOtp();
+                    stop();
                   },
                   child: const Text(
                     "Didn't get the code?",
@@ -220,6 +226,18 @@ class _VerifyUserEmailScreenState extends State<VerifyUserEmailScreen> {
           ),
         ],
       );
+
+    speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 
   void _registerUserAccount() {
     FocusScope.of(context).requestFocus(FocusNode());

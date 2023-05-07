@@ -29,6 +29,9 @@ class _UploadScreenState extends State<UploadScreen> {
   late double screenHeight, screenWidth, resWidth;
 
   final FlutterTts flutterTts = FlutterTts();
+
+  String intro = "Upload Screen. Upload PDF. Upload Image.";
+
   final TextEditingController textEditingController = TextEditingController();
 
   File file = File("");
@@ -84,6 +87,7 @@ class _UploadScreenState extends State<UploadScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -92,13 +96,13 @@ class _UploadScreenState extends State<UploadScreen> {
                     )));
       });
 
-  Widget buildSpeechButton() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildContext() => ListView(
@@ -240,4 +244,16 @@ class _UploadScreenState extends State<UploadScreen> {
               color: Colors.black,
             ),
           ]);
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 }

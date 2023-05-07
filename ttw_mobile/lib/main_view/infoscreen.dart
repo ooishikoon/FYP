@@ -110,22 +110,13 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget buildContext() => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 20, 10),
+            padding: const EdgeInsets.fromLTRB(10, 20, 20, 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const <Widget>[
-                IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.headphones,
-                      size: 35,
-                      color: Colors.black,
-                    )),
-              ],
             ),
           ),
           SizedBox(
-            height: 150,
+            height: 200,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(200),
               child: const Image(

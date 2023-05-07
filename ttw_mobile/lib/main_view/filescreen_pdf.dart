@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../constants.dart';
 import '../model/uploaded_pdf.dart';
 import '../model/user.dart';
@@ -26,6 +26,10 @@ class PDFFileScreen extends StatefulWidget {
 
 class _PDFFileScreenState extends State<PDFFileScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro = "Book Rack Screen. PDF.";
 
   List<UploadedPDF> pdfList = <UploadedPDF>[];
   String titlecenter = "Loading...";
@@ -91,6 +95,7 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -99,17 +104,18 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
                     )));
       });
 
-  Widget buildSpeechButton() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildImage() => GestureDetector(
         onTap: () => {
+          stop(),
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -174,6 +180,18 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
                         );
                       }))),
             ]));
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 
   void _loadFile() {
     http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/load_pdf.php"), body: {

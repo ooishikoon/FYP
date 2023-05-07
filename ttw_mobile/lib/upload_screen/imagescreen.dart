@@ -28,6 +28,17 @@ class RecognizePage extends StatefulWidget {
 
 class _RecognizePageState extends State<RecognizePage> {
   FlutterTts flutterTts = FlutterTts();
+
+  String intro = "Read Image Screen. Save button. Stop button. Speak button.";
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
   final TextEditingController fileName = TextEditingController();
 
   void stop() async {
@@ -66,6 +77,7 @@ class _RecognizePageState extends State<RecognizePage> {
           actions: [
             IconButton(
                 onPressed: () {
+                  stop();
                   if (widget.user.email == "guest@ttw.com") {
                     _loadOptions();
                   } else {
@@ -93,7 +105,13 @@ class _RecognizePageState extends State<RecognizePage> {
                 icon: const Icon(
                   Icons.mic,
                   size: 28,
-                ))
+                )),
+            IconButton(
+                onPressed: () => speakIntro(intro),
+                icon: const Icon(
+                  Icons.headphones,
+                  size: 28,
+                )),
           ],
         ),
         body: _isBusy == true

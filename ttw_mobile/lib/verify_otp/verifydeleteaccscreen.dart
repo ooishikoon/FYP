@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
 import '../main.dart';
@@ -25,6 +26,11 @@ class DeleteAccountScreen extends StatefulWidget {
 
 class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   late double screenHeight, screenWidth, resWidth;
+
+  FlutterTts flutterTts = FlutterTts();
+
+  String intro =
+      "Verify Delete Account Screen. Enter the verification code sent to your email. OTP text field. Didn't get the code button.";
 
   final TextEditingController verificationCode = TextEditingController();
 
@@ -118,6 +124,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
         size: 35,
       ),
       onPressed: () {
+        stop();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -126,13 +133,13 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     )));
       });
 
-  Widget buildSpeechButton() => const IconButton(
-        icon: Icon(
+  Widget buildSpeechButton() => IconButton(
+        icon: const Icon(
           Icons.headphones,
           size: 32,
           color: Colors.black,
         ),
-        onPressed: null,
+        onPressed: () => speakIntro(intro),
       );
 
   Widget buildContext() => Column(
@@ -203,6 +210,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 TextButton(
                   onPressed: () {
                     sendOtp();
+                    stop();
                   },
                   child: const Text(
                     "Didn't get the code?",
@@ -221,6 +229,18 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           ),
         ],
       );
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
+  stop() async {
+    await flutterTts.stop();
+  }
 
   void deleteAccountDialog() {
     http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/delete_user.php"),

@@ -48,6 +48,17 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
 
   FlutterTts flutterTts = FlutterTts();
 
+  String intro =
+      "Read PDF Screen. Save button. Stop button. Speak button. Upload PDF button.";
+
+  speakIntro(String intro) async {
+    if (intro != null && intro.isNotEmpty) {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.setPitch(1); // 0.5 to 1.5
+      await flutterTts.speak(intro);
+    }
+  }
+
   void stop() async {
     await flutterTts.stop();
   }
@@ -89,6 +100,7 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
             size: 20,
           ),
           onPressed: () {
+            stop();
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -115,7 +127,10 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
                     timeInSecForIosWeb: 1,
                     fontSize: 16.0,
                   );
+                  flutterTts.speak("Please select a pdf file");
+                  return;
                 }
+                stop();
               },
               icon: const Icon(
                 Icons.save,
@@ -138,7 +153,13 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
               icon: const Icon(
                 Icons.mic,
                 size: 28,
-              ))
+              )),
+          IconButton(
+              onPressed: () => speakIntro(intro),
+              icon: const Icon(
+                Icons.headphones,
+                size: 28,
+              )),
         ],
       ),
       body: Container(
@@ -154,6 +175,7 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          stop();
           pickDocument().then((value) async {
             debugPrint(value);
             if (value != '') {
