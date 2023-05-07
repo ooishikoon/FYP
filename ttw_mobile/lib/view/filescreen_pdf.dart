@@ -2,36 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:image_picker/image_picker.dart';
 import '../constants.dart';
-import '../model/uploaded_image.dart';
+import '../model/uploaded_pdf.dart';
 import '../model/user.dart';
 import '../recognize_screen/file_recognize_image.dart';
-import '../utils/image_cropper_page.dart';
-import '../utils/image_picker_class.dart';
-import 'filescreen_pdf.dart';
+import 'filescreen.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
 
 User user = User();
 
-class ImageFileScreen extends StatefulWidget {
+class PDFFileScreen extends StatefulWidget {
   final User user;
 
-  const ImageFileScreen({
+  const PDFFileScreen({
     Key? key,
     required this.user,
   }) : super(key: key);
 
   @override
-  State<ImageFileScreen> createState() => _ImageFileScreenState();
+  State<PDFFileScreen> createState() => _PDFFileScreenState();
 }
 
-class _ImageFileScreenState extends State<ImageFileScreen> {
+class _PDFFileScreenState extends State<PDFFileScreen> {
   late double screenHeight, screenWidth, resWidth;
 
-  List<UploadedImage> imageList = <UploadedImage>[];
+  List<UploadedPDF> pdfList = <UploadedPDF>[];
   String titlecenter = "Loading...";
 
   @override
@@ -62,7 +58,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          buildPdf(),
+                          buildImage(),
                         ]),
                   ),
                   Padding(
@@ -112,17 +108,17 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
         onPressed: null,
       );
 
-  Widget buildPdf() => GestureDetector(
+  Widget buildImage() => GestureDetector(
         onTap: () => {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => PDFFileScreen(
+                  builder: (BuildContext context) => ImageFileScreen(
                         user: widget.user,
                       )))
         },
         child: const Text(
-          "PDF",
+          "Image",
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
@@ -131,7 +127,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
       );
 
   Widget buildContext() => Container(
-      child: imageList.isEmpty
+      child: pdfList.isEmpty
           ? Center(
               child: Text(titlecenter,
                   style: const TextStyle(
@@ -142,7 +138,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
                   child: GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: (1 / 1),
-                      children: List.generate(imageList.length, (index) {
+                      children: List.generate(pdfList.length, (index) {
                         return InkWell(
                           splashColor: Colors.amber,
                           onTap: () => {recognizeImage(index)},
@@ -154,39 +150,17 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                        child: Image.network(
-                                      CONSTANTS.server +
-                                          "/fyp_ttw/assets/image/" +
-                                          imageList[index].image_id.toString() +
-                                          '.jpg',
-                                      width: 150,
-                                      height: 150,
-                                      fit: BoxFit.cover,
-                                      alignment: Alignment.center,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      },
-                                    )),
+                                    SizedBox(
+                                      height: 120,
+                                      child: SizedBox(
+                                          child: Image.asset(
+                                              'assets/images/pdf_icon.png')),
+                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      imageList[index].image_name.toString(),
+                                      pdfList[index].pdf_name.toString(),
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 15,
@@ -202,17 +176,17 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
             ]));
 
   void _loadFile() {
-    http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/load_image.php"), body: {
+    http.post(Uri.parse(CONSTANTS.server + "/fyp_ttw/php/load_pdf.php"), body: {
       "email": widget.user.email.toString(),
     }).then((response) {
       var jsondata = jsonDecode(response.body);
       print(jsondata);
       if (response.statusCode == 200 && jsondata['status'] == 'success') {
         var extractdata = jsondata['data'];
-        if (extractdata['images'] != null) {
-          imageList = <UploadedImage>[];
-          extractdata['images'].forEach((v) {
-            imageList.add(UploadedImage.fromJson(v));
+        if (extractdata['pdf'] != null) {
+          pdfList = <UploadedPDF>[];
+          extractdata['pdf'].forEach((v) {
+            pdfList.add(UploadedPDF.fromJson(v));
           });
           setState(() {});
         } else {
@@ -226,7 +200,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
   void recognizeImage(int index) {
     String imagePath = CONSTANTS.server +
         "/fyp_ttw/assets/image/" +
-        imageList[index].image_id.toString() +
+        pdfList[index].pdf_id.toString() +
         '.jpg';
 
     Navigator.push(
