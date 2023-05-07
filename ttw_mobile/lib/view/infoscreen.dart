@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../model/user.dart';
 import 'mainscreen.dart';
+import '../model/user.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 User user = User();

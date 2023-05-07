@@ -326,7 +326,7 @@ class _MainScreenState extends State<MainScreen> {
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (content) => FileScreen(
+                                  builder: (content) => ImageFileScreen(
                                         user: widget.user,
                                       )));
                         }

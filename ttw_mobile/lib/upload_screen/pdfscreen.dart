@@ -279,12 +279,12 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
 
     var data = {
       'email': widget.user.email.toString(),
-      'filename': fileName.text,
-      'file_data': base64Pdf,
+      'pdfname': fileName.text,
+      'pdf_file': base64Pdf,
     };
 
     var response = await http.post(
-        Uri.parse(CONSTANTS.server + "/fyp_ttw/php/savePdf.php"),
+        Uri.parse(CONSTANTS.server + "/fyp_ttw/php/save_pdf.php"),
         headers: headers,
         body: data);
 

@@ -248,10 +248,10 @@ class _RecognizePageState extends State<RecognizePage> {
 
     // Send the HTTP request
     http.post(
-      Uri.parse(CONSTANTS.server + "/fyp_ttw/php/saveImage.php"),
+      Uri.parse(CONSTANTS.server + "/fyp_ttw/php/save_image.php"),
       body: {
         "email": widget.user.email.toString(),
-        "filename": filename,
+        "imagename": filename,
         "image": base64Image,
       },
     ).timeout(
