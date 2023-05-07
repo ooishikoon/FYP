@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
+import '../verify_otp/verifyregistrationscreen.dart';
 import 'loginscreen.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:http/http.dart' as http;
-
-import 'verifyregistrationscreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);

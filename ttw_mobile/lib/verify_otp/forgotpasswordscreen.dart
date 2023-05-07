@@ -1,14 +1,12 @@
 import 'dart:convert';
-
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ndialog/ndialog.dart';
-import 'package:ttw_mobile/view/loginscreen.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart' as http;
-
 import '../constants.dart';
+import '../login_register/loginscreen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);

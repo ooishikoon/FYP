@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../login_register/loginscreen.dart';
+import '../login_register/registrationscreen.dart';
 import '../model/user.dart';
 import '../provider/in_app_tour_storage.dart';
 import '../utils/in_app_tour.dart';
 import 'dictionaryscreen.dart';
 import 'filescreen.dart';
 import 'infoscreen.dart';
-import 'loginscreen.dart';
 import 'profilescreen.dart';
-import 'registrationscreen.dart';
 import 'textscreen.dart';
 import 'uploadscreen.dart';
 

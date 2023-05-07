@@ -5,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
 import '../main.dart';
 import '../model/user.dart';
+import '../verify_otp/verifydeleteaccscreen.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
-import 'verifydeleteaccscreen.dart';
 
 User user = User();
 

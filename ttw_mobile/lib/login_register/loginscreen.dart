@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ttw_mobile/view/forgotpasswordscreen.dart';
+import 'package:ttw_mobile/verify_otp/forgotpasswordscreen.dart';
 import '../constants.dart';
 import '../main.dart';
+import '../main_view/mainscreen.dart';
 import '../model/user.dart';
-import 'mainscreen.dart';
 import 'registrationscreen.dart';
 
 class LoginScreen extends StatefulWidget {

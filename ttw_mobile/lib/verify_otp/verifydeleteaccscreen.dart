@@ -1,15 +1,13 @@
 import 'dart:convert';
-
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../constants.dart';
 import '../main.dart';
+import '../main_view/profilescreen.dart';
 import '../model/user.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart' as http;
-
-import 'profilescreen.dart';
 
 User user = User();
 

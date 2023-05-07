@@ -3,10 +3,8 @@
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'main_view/mainscreen.dart';
 import 'model/user.dart';
-import 'view/infoscreen.dart';
-import 'view/mainscreen.dart';
-
 void main() {
   runApp(const MyApp());
 }

@@ -1,17 +1,14 @@
 import 'dart:convert';
-
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ndialog/ndialog.dart';
-import 'package:ttw_mobile/view/registrationscreen.dart';
 import '../constants.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart' as http;
+import '../login_register/loginscreen.dart';
+import '../login_register/registrationscreen.dart';
 
-import '../main.dart';
-import 'loginscreen.dart';
-import 'profilescreen.dart';
 
 class VerifyUserEmailScreen extends StatefulWidget {
   final String emailController;

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -8,12 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
 import 'package:pdf_text/pdf_text.dart';
-import 'package:ttw_mobile/view/uploadscreen.dart';
-
 import '../constants.dart';
+import '../login_register/loginscreen.dart';
+import '../login_register/registrationscreen.dart';
+import '../main_view/uploadscreen.dart';
 import '../model/user.dart';
-import '../view/loginscreen.dart';
-import '../view/registrationscreen.dart';
 
 User user = User();
 
