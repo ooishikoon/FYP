@@ -243,7 +243,6 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
         "/fyp_ttw/assets/image/" +
         imageList[index].image_id.toString() +
         '.jpg';
-
     Navigator.push(
       context,
       CupertinoPageRoute(

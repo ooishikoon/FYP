@@ -73,7 +73,11 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     _streamController.add("waiting");
     Response response = await get(Uri.parse(_url + _controller.text.trim()),
         headers: {"Authorization": "Token " + _token});
-    _streamController.add(json.decode(response.body));
+    if (response.statusCode == 200) {
+      _streamController.add(json.decode(response.body));
+    } else {
+      _streamController.add({"statusCode": response.statusCode});
+    }
   }
 
   @override
@@ -187,38 +191,62 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                 ),
               );
             }
-
             if (snapshot.data == "waiting") {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text(
+                  "No definitions found",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              );
+            }
+            if (snapshot.data["statusCode"] != null) {
+              return const Center(
+                child: Text(
+                  "No definitions found",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              );
+            }
+            if (snapshot.data["definitions"] == null ||
+                snapshot.data["definitions"].isEmpty) {
+              return const Center(
+                child: Text(
+                  "No definitions found",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: snapshot.data["definitions"].length,
               itemBuilder: (BuildContext context, int index) {
+                final definition = snapshot.data["definitions"][index];
+                final imageUrl = definition["image_url"];
+                final type = definition["type"];
+                final def = definition["definition"];
                 return ListBody(
                   children: <Widget>[
                     Container(
                       color: Colors.grey[300],
                       child: ListTile(
-                        leading: snapshot.data["definitions"][index]
-                                    ["image_url"] ==
-                                null
+                        leading: imageUrl == null
                             ? null
                             : CircleAvatar(
-                                backgroundImage: NetworkImage(snapshot
-                                    .data["definitions"][index]["image_url"]),
-                              ),
-                        title: Text(_controller.text.trim() +
-                            "(" +
-                            snapshot.data["definitions"][index]["type"] +
-                            ")"),
+                                backgroundImage: NetworkImage(imageUrl)),
+                        title: Text("${_controller.text.trim()}($type)"),
                         trailing: IconButton(
                           onPressed: () {
-                            speak(_controller.text.trim() +
-                                " " +
-                                snapshot.data["definitions"][index]
-                                    ["definition"]);
+                            speak("${_controller.text.trim()} $def");
                           },
                           icon: Icon(Icons.volume_up),
                         ),
@@ -226,8 +254,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          snapshot.data["definitions"][index]["definition"]),
+                      child: Text(def),
                     ),
                   ],
                 );
