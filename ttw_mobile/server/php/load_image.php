@@ -18,6 +18,8 @@ if ($result->num_rows > 0) {
         $imageList = array();
         $imageList['image_id'] = $row['image_id'];
         $imageList['image_name'] = $row['image_name'];
+        $imageList['image'] = $row['image'];
+        $imageList['image_text'] = $row['image_text'];
         $imageList['user_email'] = $row['user_email'];
         array_push($images["images"],$imageList);
     }

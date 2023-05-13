@@ -11,16 +11,17 @@ include_once("dbconnect.php");
 $user_email = $_POST['email'];
 $pdf_name = $_POST['pdfname'];
 $pdf = $_POST['pdf_file'];
+$pdf_text = $_POST['pdftext'];
 
 // Decode base64 data
 $pdf_data = base64_decode($pdf);
 
 // Prepare the SQL statement
-$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_pdf (pdf_id, pdf_name, pdf, user_email) VALUES (?, ?, ?, ?)');
+$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_pdf (pdf_id, pdf_name, pdf, pdf_text, user_email) VALUES (?, ?, ?, ?, ?)');
 
 // Set the parameters and bind them to the statement
 $pdf_id = null; // file_id is auto-incremented
-mysqli_stmt_bind_param($stmt, 'ssss', $pdf_id, $pdf_name, $pdf_data, $user_email);
+mysqli_stmt_bind_param($stmt, 'issss', $pdf_id, $pdf_name, $pdf_data, $pdf_text, $user_email);
 
 // Execute the statement and check for errors
 if (!mysqli_stmt_execute($stmt)) {

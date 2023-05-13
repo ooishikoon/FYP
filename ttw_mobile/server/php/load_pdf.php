@@ -19,6 +19,8 @@ if ($result->num_rows > 0) {
         $pdfList = array();
         $pdfList['pdf_id'] = $row['pdf_id'];
         $pdfList['pdf_name'] = $row['pdf_name'];
+        // $pdfList['pdf'] = $row['pdf'];
+        $pdfList['pdf_text'] = $row['pdf_text'];
         $pdfList['user_email'] = $row['user_email'];
         array_push($pdf["pdf"],$pdfList);
     }
@@ -34,25 +36,4 @@ function sendJsonResponse($sentArray)
     header('Content-Type: application/json');
     echo json_encode($sentArray);
 }
-
-// if (!isset($_POST)) {
-//     $response = array('status' => 'failed', 'data' => null);
-//     sendJsonResponse($response);
-//     die();
-// }
-
-// include_once("dbconnect.php");
-
-// $user_email = $_POST['email'];
-// $result = $conn->query("SELECT * FROM tbl_pdf WHERE user_email = '$user_email'");
-
-// $pdfList = array();
-
-// if($result) {
-//     while($row = mysqli_fetch_assoc($result)) {
-//         $pdfList[] = $row;
-//     }
-//     echo json_encode($pdfList);
-// }
-
 ?>

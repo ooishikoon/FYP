@@ -11,13 +11,14 @@ include_once("dbconnect.php");
 $user_email = $_POST['email'];
 $image_name = $_POST['imagename'];
 $image_data = $_POST['image'];
+$image_text = $_POST['imagetext'];
 
 // Prepare the SQL statement
-$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_image (image_id, image_name, image, user_email) VALUES (?, ?, ?, ?)');
+$stmt = mysqli_prepare($conn, 'INSERT INTO tbl_image (image_id, image_name, image, image_text, user_email) VALUES (?, ?, ?, ?, ?)');
 
 // Set the parameters and bind them to the statement
 $image_id = null; // file_id is auto-incremented
-mysqli_stmt_bind_param($stmt, 'ssss', $image_id, $image_name, $image_data, $user_email);
+mysqli_stmt_bind_param($stmt, 'issss', $image_id, $image_name, $image_data, $image_text, $user_email);
 
 // Execute the statement and check for errors
 if (!mysqli_stmt_execute($stmt)) {
