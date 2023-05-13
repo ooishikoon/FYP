@@ -41,6 +41,8 @@ class _RecognizePageState extends State<RecognizePage> {
 
   final TextEditingController fileName = TextEditingController();
 
+  final TextEditingController imageText = TextEditingController();
+
   void stop() async {
     await flutterTts.stop();
   }
@@ -57,8 +59,6 @@ class _RecognizePageState extends State<RecognizePage> {
   }
 
   bool _isBusy = false;
-
-  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -98,8 +98,8 @@ class _RecognizePageState extends State<RecognizePage> {
                 )),
             IconButton(
                 onPressed: () {
-                  if (controller.text.isNotEmpty) {
-                    speak(text: controller.text.trim());
+                  if (imageText.text.isNotEmpty) {
+                    speak(text: imageText.text.trim());
                   }
                 },
                 icon: const Icon(
@@ -122,7 +122,7 @@ class _RecognizePageState extends State<RecognizePage> {
                 padding: const EdgeInsets.all(20),
                 child: TextFormField(
                   maxLines: MediaQuery.of(context).size.height.toInt(),
-                  controller: controller,
+                  controller: imageText,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     // label: Text("Text to read...")
@@ -202,7 +202,7 @@ class _RecognizePageState extends State<RecognizePage> {
     final RecognizedText recognizedText =
         await textRecognizer.processImage(image);
 
-    controller.text = recognizedText.text;
+    imageText.text = recognizedText.text;
 
     ///End busy state
     setState(() {
@@ -240,6 +240,7 @@ class _RecognizePageState extends State<RecognizePage> {
 
   void saveImage(File imageFile) async {
     String filename = fileName.text;
+    String filetext = imageText.text;
 
     // Read the image file as bytes
     List<int> imageBytes = await imageFile.readAsBytes();
@@ -269,6 +270,7 @@ class _RecognizePageState extends State<RecognizePage> {
         "email": widget.user.email.toString(),
         "imagename": filename,
         "image": base64Image,
+        "imagetext": filetext,
       },
     ).timeout(
       const Duration(seconds: 5),

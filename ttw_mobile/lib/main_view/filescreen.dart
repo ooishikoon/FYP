@@ -239,15 +239,12 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
   }
 
   void recognizeImage(int index) {
-    String imagePath = CONSTANTS.server +
-        "/fyp_ttw/assets/image/" +
-        imageList[index].image_id.toString() +
-        '.jpg';
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (_) => FileRecognizeImagePage(
-          path: imagePath,
+          builder: (_) => FileRecognizeImageScreen(
+          imageList: imageList,
+          index: index,
           user: widget.user,
         ),
       ),
