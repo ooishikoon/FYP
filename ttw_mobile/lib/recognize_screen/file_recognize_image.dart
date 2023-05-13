@@ -70,12 +70,14 @@ class _FileRecognizeImageScreenState extends State<FileRecognizeImageScreen> {
 
   void _loadText(int index){
     String imageText = widget.imageList[index].image_text.toString();
+    String imageName = widget.imageList[index].image_name.toString();
 
     Navigator.push(
       context,
       CupertinoPageRoute(
           builder: (_) => ExtractedImageTextScreen(
           imageText: imageText,
+          imageName: imageName,
           user: widget.user,
         ),
       ),
