@@ -5,7 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import '../constants.dart';
 import '../model/uploaded_pdf.dart';
 import '../model/user.dart';
-import '../recognize_screen/file_recognize_image.dart';
+import '../recognize_screen/extracted_pdf.dart';
 import 'filescreen.dart';
 import 'mainscreen.dart';
 import 'package:http/http.dart' as http;
@@ -147,7 +147,8 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
                       children: List.generate(pdfList.length, (index) {
                         return InkWell(
                           splashColor: Colors.amber,
-                          onTap: () => {recognizeImage(index)},
+                          // onTap: () => {recognizeImage(index)},
+                          onTap: () => {_loadText(index)},
                           child: Container(
                               child: Column(
                             children: [
@@ -215,17 +216,16 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
     });
   }
 
-  void recognizeImage(int index) {
-    String imagePath = CONSTANTS.server +
-        "/fyp_ttw/assets/image/" +
-        pdfList[index].pdf_id.toString() +
-        '.jpg';
+  void _loadText(int index){
+    String pdfText = pdfList[index].pdf_text.toString();
+    String pdfName = pdfList[index].pdf_name.toString();
 
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (_) => FileRecognizeImagePage(
-          path: imagePath,
+          builder: (_) => ExtractedPdfTextScreen(
+          pdfText: pdfText,
+          pdfName: pdfName,
           user: widget.user,
         ),
       ),

@@ -41,7 +41,7 @@ class RecognizePdfScreen extends StatefulWidget {
 }
 
 class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController pdfText = TextEditingController();
   final TextEditingController fileName = TextEditingController();
 
   late final String? files;
@@ -113,7 +113,7 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                if (controller.text.isNotEmpty) {
+                if (pdfText.text.isNotEmpty) {
                   if (widget.user.email == "guest@ttw.com") {
                     _loadOptions();
                   } else {
@@ -146,8 +146,8 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
               )),
           IconButton(
               onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  speak(text: controller.text.trim());
+                if (pdfText.text.isNotEmpty) {
+                  speak(text: pdfText.text.trim());
                 }
               },
               icon: const Icon(
@@ -165,7 +165,7 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
       body: Container(
         padding: const EdgeInsets.all(20),
         child: TextFormField(
-          controller: controller,
+          controller: pdfText,
           maxLines: MediaQuery.of(context).size.height.toInt(),
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -183,9 +183,9 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
 
               final text = await doc.text;
 
-              controller.text = text;
+              pdfText.text = text;
             } else {
-              controller.text = "No PDF selected.";
+              pdfText.text = "No PDF selected.";
             }
           });
         },
@@ -301,6 +301,7 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
       'email': widget.user.email.toString(),
       'pdfname': fileName.text,
       'pdf_file': base64Pdf,
+      "pdftext": pdfText.text,
     };
 
     var response = await http.post(
