@@ -32,7 +32,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
   String intro = "Book Rack Screen. Image.";
 
   List<UploadedImage> imageList = <UploadedImage>[];
-  String titlecenter = "Loading...";
+  String titlecenter = "No Files";
 
   @override
   void initState() {

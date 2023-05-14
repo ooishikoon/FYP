@@ -12,7 +12,9 @@ class FileRecognizeImageScreen extends StatefulWidget {
 
   FileRecognizeImageScreen({
     Key? key,
-    required this.user, required this.index, required this.imageList,
+    required this.user,
+    required this.index,
+    required this.imageList,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,17 @@ class _FileRecognizeImageScreenState extends State<FileRecognizeImageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Recognize Image'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _loadText(widget.index);
+            },
+            icon: const Icon(
+              Icons.text_format,
+              size: 35,
+            )
+          ),
+        ],
       ),
       body: Container(
         child: _imageProvider == null
@@ -47,12 +60,6 @@ class _FileRecognizeImageScreenState extends State<FileRecognizeImageScreen> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _loadText(widget.index);
-                    },
-                    child: const Text('Extract Text'),
-                  ),
                 ],
               ),
       ),
@@ -62,20 +69,20 @@ class _FileRecognizeImageScreenState extends State<FileRecognizeImageScreen> {
   void _loadImage() {
     setState(() {
       _imageProvider = NetworkImage(CONSTANTS.server +
-        "/fyp_ttw/assets/image/" +
-        widget.imageList[widget.index].image_id.toString() +
-        '.jpg');
+          "/fyp_ttw/assets/image/" +
+          widget.imageList[widget.index].image_id.toString() +
+          '.jpg');
     });
   }
 
-  void _loadText(int index){
+  void _loadText(int index) {
     String imageText = widget.imageList[index].image_text.toString();
     String imageName = widget.imageList[index].image_name.toString();
 
     Navigator.push(
       context,
       CupertinoPageRoute(
-          builder: (_) => ExtractedImageTextScreen(
+        builder: (_) => ExtractedImageTextScreen(
           imageText: imageText,
           imageName: imageName,
           user: widget.user,

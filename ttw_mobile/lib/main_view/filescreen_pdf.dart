@@ -32,7 +32,7 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
   String intro = "Book Rack Screen. PDF.";
 
   List<UploadedPDF> pdfList = <UploadedPDF>[];
-  String titlecenter = "Loading...";
+  String titlecenter = "No Files";
 
   @override
   void initState() {
