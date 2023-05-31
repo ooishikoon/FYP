@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -241,6 +240,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           content: SizedBox(
             height: screenHeight / 5,
+            width: screenWidth / 2,
             child: Column(
               children: [
                 TextField(

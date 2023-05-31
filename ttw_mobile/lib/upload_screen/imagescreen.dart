@@ -287,6 +287,8 @@ class _RecognizePageState extends State<RecognizePage> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           fontSize: 16.0,
+          textColor: Colors.white,
+          backgroundColor: Colors.amber,
         );
         progressDialog.dismiss();
         Navigator.push(
@@ -303,6 +305,7 @@ class _RecognizePageState extends State<RecognizePage> {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             textColor: Colors.white,
+            backgroundColor: Colors.amber,
             fontSize: 16.0);
         progressDialog.dismiss();
         return;

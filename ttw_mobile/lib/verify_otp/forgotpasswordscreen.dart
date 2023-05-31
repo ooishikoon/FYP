@@ -317,6 +317,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
           content: SizedBox(
             height: screenHeight / 5,
+            width: screenWidth / 2,
             child: Column(
               children: [
                 TextField(

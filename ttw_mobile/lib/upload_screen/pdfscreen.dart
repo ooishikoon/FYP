@@ -318,6 +318,8 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         fontSize: 16.0,
+        textColor: Colors.white,
+        backgroundColor: Colors.amber,
       );
       Navigator.of(context).pop();
       progressDialog.dismiss();
@@ -335,6 +337,8 @@ class _RecognizePdfScreenState extends State<RecognizePdfScreen> {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         fontSize: 16.0,
+        textColor: Colors.white,
+        backgroundColor: Colors.amber,
       );
       progressDialog.dismiss();
       return;

@@ -61,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       icon: const Icon(
@@ -75,9 +75,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 builder: (content) => LoginScreen()));
                       },
                     ),
-                    const SizedBox(
-                      width: 60,
-                    ),
+                    // const SizedBox(
+                    //   width: 60,
+                    // ),
                     const Text(
                       "Create Account",
                       style: TextStyle(
@@ -85,9 +85,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(
-                      width: 40,
-                    ),
+                    // const SizedBox(
+                    //   width: 40,
+                    // ),
                     IconButton(
                         onPressed: () => speakIntro(text),
                         icon: const Icon(

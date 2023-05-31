@@ -182,13 +182,6 @@ class _InfoScreenState extends State<InfoScreen> {
         ],
       );
 
-  // //Method to convert text to speech
-  // _speakText() async {
-  //   await flutterTts.setLanguage('en-US');
-  //   await flutterTts.setPitch(1); // 0.5 to 1.5
-  //   await flutterTts.speak(textToBeSpoken);
-  // }
-
   Future _speak(String textToBeSpoken) async {
     if (textToBeSpoken != null && textToBeSpoken.isNotEmpty) {
       var result = await flutterTts.speak(textToBeSpoken);

@@ -14,7 +14,6 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,6 +37,8 @@ class DictionaryScreen extends StatefulWidget {
 }
 
 class _DictionaryScreenState extends State<DictionaryScreen> {
+  late double screenHeight, screenWidth, resWidth;
+
   final String _url = "https://owlbot.info/api/v4/dictionary/";
   final String _token = "78a5f282b05342e425dbd662e06500e2d760b06f";
 
@@ -91,6 +92,14 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth <= 600) {
+      resWidth = screenWidth;
+    } else {
+      resWidth = screenWidth * 0.75;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dictionary"),
@@ -111,16 +120,14 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
         actions: <Widget>[
           Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                  onTap: () {},
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.headphones,
-                      size: 32,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => speakIntro(intro),
-                  ))),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.headphones,
+                  size: 32,
+                  color: Colors.black,
+                ),
+                onPressed: () => speakIntro(intro),
+              )),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),

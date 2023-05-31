@@ -53,7 +53,8 @@ dependencies:
   pdf_viewer_plugin: ^2.0.1
   pdf_text: ^0.5.0
   google_mlkit_text_recognition: ^0.6.0
-
+  flutter_tesseract_ocr: ^0.4.22
+  syncfusion_flutter_pdfviewer: ^21.2.4
 
 dev_dependencies:
   flutter_test:

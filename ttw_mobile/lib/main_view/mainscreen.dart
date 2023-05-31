@@ -3,7 +3,6 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../login_register/loginscreen.dart';
 import '../login_register/registrationscreen.dart';
 import '../model/user.dart';
-import '../provider/in_app_tour_storage.dart';
 import '../utils/in_app_tour.dart';
 import 'dictionaryscreen.dart';
 import 'filescreen.dart';
@@ -39,8 +38,8 @@ class _MainScreenState extends State<MainScreen> {
 
   bool isSaved = false;
 
-  //Default guide tour with save state
-  void _initMainInAppTour() {
+  //Guide Tour Button
+    void _initMainInAppTour() {
     tutorialCoachMark = TutorialCoachMark(
         targets: mainTargetsPage(
           textKey: textKey,
@@ -55,57 +54,14 @@ class _MainScreenState extends State<MainScreen> {
         hideSkip: false,
         opacityShadow: 0.8,
         onFinish: () {
-          SaveInAppTour().saveMainStatus();
           print("Completed");
         });
   }
 
   void _showInAppTour() {
     Future.delayed(const Duration(seconds: 2), () {
-      // tutorialCoachMark.show(context: context);
-      SaveInAppTour().getMainStatus().then((value) {
-        if (value == false) {
-          tutorialCoachMark.show(context: context);
-          print("User has not seen this page");
-        } else {
-          print("User has seen this page");
-        }
-      });
-    });
-  }
-
-  //Guide Tour Button
-    void _initMainInAppTour2() {
-    tutorialCoachMark = TutorialCoachMark(
-        targets: mainTargetsPage(
-          textKey: textKey,
-          uploadKey: uploadKey,
-          bookrackKey: bookrackKey,
-          dictionaryKey: dictionaryKey,
-          tourKey: tourKey,
-          profileKey: profileKey,
-        ),
-        colorShadow: Colors.amber,
-        paddingFocus: 10,
-        hideSkip: false,
-        opacityShadow: 0.8,
-        onFinish: () {
-          print("Completed");
-        });
-  }
-
-  void _showInAppTour2() {
-    Future.delayed(const Duration(seconds: 2), () {
       tutorialCoachMark.show(context: context);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    //TODO implement initState
-    _initMainInAppTour();
-    _showInAppTour();
   }
 
   @override
@@ -129,29 +85,10 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 25, 0),
+              padding: const EdgeInsets.fromLTRB(10, 15, 25, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  // IconButton(
-                  //   icon: const Icon(
-                  //     Icons.keyboard_arrow_left,
-                  //     size: 35,
-                  //   ),
-                  //   onPressed: () {
-                  //     Navigator.pushReplacement(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (content) => const LoginScreen()));
-                  //   },
-                  // ),
-                  // IconButton(
-                  //     onPressed: null,
-                  //     icon: Icon(
-                  //       Icons.perm_device_information,
-                  //       size: 35,
-                  //       color: Colors.black,
-                  //     )),
                   SizedBox(
                       height: 45,
                       child: GestureDetector(
@@ -175,20 +112,6 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            // Column(
-            //   children: [
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: const [
-            //         Text(
-            //           "Tell the World",
-            //           style:
-            //               TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -231,14 +154,9 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              // Icon(
-                              //   Icons.text_format,
-                              //   size: 50,
-                              // ),
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
-                                  // borderRadius: BorderRadius.circular(200),
                                   child: Image(
                                     image: AssetImage(
                                         'assets/images/text_editor.png'),
@@ -353,14 +271,9 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: const [
-                              // Icon(
-                              //   Icons.library_books,
-                              //   size: 50,
-                              // ),
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
-                                  // borderRadius: BorderRadius.circular(200),
                                   child: Image(
                                     image: AssetImage(
                                         'assets/images/books_learn_library_school_icon.png'),
@@ -443,8 +356,8 @@ class _MainScreenState extends State<MainScreen> {
                       key: tourKey,
                       splashColor: Colors.amber,
                       onTap: () => {
-                        _initMainInAppTour2(),
-                        _showInAppTour2(),
+                        _initMainInAppTour(),
+                        _showInAppTour(),
                       },
                       child: Card(
                         clipBehavior: Clip.antiAlias,
@@ -484,7 +397,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                               ),
                               Text(
-                                "Guide Tour",
+                                "Tutorial",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
