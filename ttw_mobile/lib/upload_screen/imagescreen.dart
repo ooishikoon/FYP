@@ -73,6 +73,20 @@ class _RecognizePageState extends State<RecognizePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: GestureDetector(
+              child: const Icon(
+                Icons.keyboard_arrow_left,
+                size: 35,
+              ),
+              onTap: () {
+                stop();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => UploadScreen(
+                              user: widget.user,
+                            )));
+              }),
           title: const Text("Read Image"),
           actions: [
             IconButton(

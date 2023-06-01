@@ -113,7 +113,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         children: [
           buildBackground(),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 35, 10, 0),
             child: Stack(
               children: [
                 Row(

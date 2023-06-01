@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 15, 25, 0),
+              padding: const EdgeInsets.fromLTRB(10, 35, 25, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[

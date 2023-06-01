@@ -59,7 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+                padding: const EdgeInsets.fromLTRB(20, 35, 20, 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,15 +69,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         size: 35,
                       ),
                       onPressed: () {
+                        stop();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (content) => LoginScreen()));
+                                builder: (content) => const LoginScreen()));
                       },
                     ),
-                    // const SizedBox(
-                    //   width: 60,
-                    // ),
                     const Text(
                       "Create Account",
                       style: TextStyle(
@@ -85,9 +83,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    // const SizedBox(
-                    //   width: 40,
-                    // ),
                     IconButton(
                         onPressed: () => speakIntro(text),
                         icon: const Icon(
@@ -307,7 +302,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return 'Please enter the password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'Enter valid password';
+        return 'Password must have 6 characters that contain A-Z, a-z and numbers.';
       } else {
         return null;
       }

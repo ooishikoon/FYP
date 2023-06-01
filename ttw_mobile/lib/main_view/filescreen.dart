@@ -46,7 +46,7 @@ class _ImageFileScreenState extends State<ImageFileScreen> {
           children: [
             buildBackground(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 35, 10, 0),
               child: Stack(
                 children: [
                   Row(

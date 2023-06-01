@@ -147,7 +147,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 60, 10, 10),
             child: Column(
               children: [
                 Text(
