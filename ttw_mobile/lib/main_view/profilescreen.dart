@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           buildBackground(),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
+            padding: const EdgeInsets.fromLTRB(10, 40, 20, 0),
             child: Stack(
               children: [
                 Row(

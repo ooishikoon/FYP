@@ -38,7 +38,7 @@ class _TextScreenState extends State<TextScreen> {
           children: [
             buildBackground(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
               child: Stack(
                 children: [
                   GestureDetector(

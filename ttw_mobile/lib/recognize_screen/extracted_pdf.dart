@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import '../main_view/filescreen_pdf.dart';
 import '../model/uploaded_image.dart';
 import '../model/user.dart';
 
@@ -43,6 +44,20 @@ class _ExtractedPdfTextScreenState extends State<ExtractedPdfTextScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              size: 35,
+            ),
+            onTap: () {
+              stop();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => PDFFileScreen(
+                            user: widget.user,
+                          )));
+            }),
         title: Text(widget.pdfName),
         actions: [
           IconButton(

@@ -110,7 +110,7 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget buildContext() => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 20, 40),
+            padding: const EdgeInsets.fromLTRB(10, 40, 20, 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
             ),

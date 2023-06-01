@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import '../main_view/filescreen.dart';
 import '../model/uploaded_image.dart';
 import '../model/user.dart';
 
@@ -16,13 +17,14 @@ class ExtractedImageTextScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ExtractedImageTextScreen> createState() => _ExtractedImageTextScreenState();
+  State<ExtractedImageTextScreen> createState() =>
+      _ExtractedImageTextScreenState();
 }
 
 class _ExtractedImageTextScreenState extends State<ExtractedImageTextScreen> {
   List<UploadedImage> imageList = <UploadedImage>[];
 
-    FlutterTts flutterTts = FlutterTts();
+  FlutterTts flutterTts = FlutterTts();
 
   void stop() async {
     await flutterTts.stop();
@@ -43,6 +45,20 @@ class _ExtractedImageTextScreenState extends State<ExtractedImageTextScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              size: 35,
+            ),
+            onTap: () {
+              stop();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => ImageFileScreen(
+                            user: widget.user,
+                          )));
+            }),
         title: Text(widget.imageName),
         actions: [
           IconButton(

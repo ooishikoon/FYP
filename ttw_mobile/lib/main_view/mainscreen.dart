@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
   bool isSaved = false;
 
   //Guide Tour Button
-    void _initMainInAppTour() {
+  void _initMainInAppTour() {
     tutorialCoachMark = TutorialCoachMark(
         targets: mainTargetsPage(
           textKey: textKey,
@@ -151,9 +151,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
@@ -205,13 +205,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              // Icon(
-                              //   Icons.upload,
-                              //   size: 50,
-                              // ),
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
@@ -268,9 +264,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
@@ -323,13 +319,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              // Icon(
-                              //   Icons.book,
-                              //   size: 50,
-                              // ),
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
@@ -378,13 +370,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              // Icon(
-                              //   Icons.tour,
-                              //   size: 50,
-                              // ),
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
@@ -441,13 +429,9 @@ class _MainScreenState extends State<MainScreen> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              // Icon(
-                              //   Icons.person,
-                              //   size: 50,
-                              // ),
+                            children: [
                               SizedBox(
                                 height: 90,
                                 child: ClipRRect(
