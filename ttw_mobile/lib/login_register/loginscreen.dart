@@ -20,6 +20,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late double screenHeight, screenWidth, resWidth;
 
+  User guest = User(email: 'guest@ttw.com');
+
   FlutterTts flutterTts = FlutterTts();
 
   String intro =
@@ -67,8 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 20, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    buildReturnButton(),
                     buildSpeechButton(),
                   ],
                 ),
@@ -91,6 +94,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     image: AssetImage('assets/images/login_page.png'),
                     fit: BoxFit.cover))),
       );
+
+  Widget buildReturnButton() => IconButton(
+      icon: const Icon(
+        Icons.keyboard_arrow_left,
+        size: 35,
+      ),
+      onPressed: () {
+        stop();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => MainScreen(
+                      user: guest,
+                    )));
+      });
 
   Widget buildSpeechButton() => IconButton(
       onPressed: () => speakIntro(intro),
@@ -328,266 +346,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       );
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SingleChildScrollView(
-  //       child: Center(
-  //         child: Container(
-  //           child: SizedBox(
-  //             width: ctrwidth,
-  //             child: Form(
-  //               key: _formKey,
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: <Widget>[
-  //                   Column(
-  //                     children: [
-  //                       Padding(
-  //                         padding: const EdgeInsets.fromLTRB(10, 20, 20, 10),
-  //                         child: Row(
-  //                           mainAxisAlignment: MainAxisAlignment.end,
-  //                           children: <Widget>[
-  //                             IconButton(
-  //                                 onPressed: () => speakIntro(intro),
-  //                                 icon: Icon(
-  //                                   Icons.headphones,
-  //                                   size: 35,
-  //                                   color: Colors.black,
-  //                                 )),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   Padding(
-  //                     padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-  //                     child: Column(
-  //                       crossAxisAlignment: CrossAxisAlignment.center,
-  //                       children: [
-  //                         SizedBox(
-  //                           height: 150,
-  //                           child: ClipRRect(
-  //                             borderRadius: BorderRadius.circular(200),
-  //                             child: const Image(
-  //                               image: AssetImage('assets/images/logo.png'),
-  //                               fit: BoxFit.fill,
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         const SizedBox(
-  //                           height: 15,
-  //                         ),
-  //                         Card(
-  //                           clipBehavior: Clip.antiAlias,
-  //                           shadowColor: Colors.amber,
-  //                           elevation: 8,
-  //                           shape: RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.circular(15.0),
-  //                           ),
-  //                           child: Container(
-  //                             padding:
-  //                                 const EdgeInsets.fromLTRB(10, 20, 10, 20),
-  //                             decoration: const BoxDecoration(
-  //                               color: Colors.white,
-  //                             ),
-  //                             child: Column(
-  //                               crossAxisAlignment: CrossAxisAlignment.center,
-  //                               children: [
-  //                                 TextFormField(
-  //                                   controller: _emailController,
-  //                                   decoration: InputDecoration(
-  //                                     hintText: 'Email',
-  //                                     icon: const Icon(Icons.email),
-  //                                     border: OutlineInputBorder(
-  //                                         borderRadius:
-  //                                             BorderRadius.circular(50.0)),
-  //                                     suffixIcon: SizedBox(
-  //                                       width: 100,
-  //                                       child: Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.end,
-  //                                         children: [
-  //                                           IconButton(
-  //                                             icon: const Icon(Icons.clear),
-  //                                             onPressed: () {
-  //                                               clearTextEmail();
-  //                                             },
-  //                                           ),
-  //                                         ],
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                   keyboardType: TextInputType.emailAddress,
-  //                                   validator: (value) {
-  //                                     if (value == null || value.isEmpty) {
-  //                                       return 'Please enter a valid email';
-  //                                     }
-  //                                     bool emailValid = RegExp(
-  //                                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-  //                                         .hasMatch(value);
-
-  //                                     if (!emailValid) {
-  //                                       return 'Please enter a valid email';
-  //                                     }
-  //                                     return null;
-  //                                   },
-  //                                 ),
-  //                                 const SizedBox(
-  //                                   height: 20,
-  //                                 ),
-  //                                 TextFormField(
-  //                                   controller: _passwordController,
-  //                                   obscureText: passwordVisible,
-  //                                   decoration: InputDecoration(
-  //                                     hintText: 'Password',
-  //                                     icon: const Icon(Icons.lock),
-  //                                     border: OutlineInputBorder(
-  //                                         borderRadius:
-  //                                             BorderRadius.circular(50.0)),
-  //                                     suffixIcon: SizedBox(
-  //                                       width: 100,
-  //                                       child: Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.end,
-  //                                         children: [
-  //                                           IconButton(
-  //                                             icon: Icon(passwordVisible
-  //                                                 ? Icons.visibility_off
-  //                                                 : Icons.visibility),
-  //                                             onPressed: () {
-  //                                               setState(
-  //                                                 () {
-  //                                                   passwordVisible =
-  //                                                       !passwordVisible;
-  //                                                 },
-  //                                               );
-  //                                             },
-  //                                           ),
-  //                                           IconButton(
-  //                                             icon: const Icon(Icons.clear),
-  //                                             onPressed: () {
-  //                                               clearTextPassword();
-  //                                             },
-  //                                           ),
-  //                                         ],
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                   keyboardType: TextInputType.visiblePassword,
-  //                                   validator: (value) {
-  //                                     if (value == null || value.isEmpty) {
-  //                                       return 'Please enter your password';
-  //                                     }
-  //                                     if (value.length < 6) {
-  //                                       return "Password must be at least 6 characters";
-  //                                     }
-  //                                     return null;
-  //                                   },
-  //                                 ),
-  //                                 Row(
-  //                                   children: [
-  //                                     Checkbox(
-  //                                       value: remember,
-  //                                       onChanged: (bool? value) {
-  //                                         _onRememberMe(value!);
-  //                                       },
-  //                                     ),
-  //                                     const Text("Remember Me")
-  //                                   ],
-  //                                 ),
-  //                                 Row(
-  //                                   mainAxisAlignment: MainAxisAlignment.end,
-  //                                   children: [
-  //                                     ElevatedButton.icon(
-  //                                         icon: const Icon(
-  //                                           Icons.login_sharp,
-  //                                           size: 20.0,
-  //                                         ),
-  //                                         label: const Text('Login'),
-  //                                         style: ElevatedButton.styleFrom(
-  //                                           shape: RoundedRectangleBorder(
-  //                                             borderRadius:
-  //                                                 BorderRadius.circular(50.0),
-  //                                           ),
-  //                                           minimumSize: const Size(100, 40),
-  //                                         ),
-  //                                         onPressed: () {
-  //                                           stop();
-  //                                           _loginUser();
-  //                                         }),
-  //                                   ],
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         const SizedBox(
-  //                           height: 70,
-  //                         ),
-  //                         Row(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: <Widget>[
-  //                             const Text("Forgot Password? ",
-  //                                 style: TextStyle(fontSize: 18.0)),
-  //                             GestureDetector(
-  //                               onTap: () => {
-  //                                 stop(),
-  //                                 Navigator.pushReplacement(
-  //                                     context,
-  //                                     MaterialPageRoute(
-  //                                         builder: (BuildContext context) =>
-  //                                             const ForgotPasswordScreen()))
-  //                               },
-  //                               child: const Text(
-  //                                 " Reset here",
-  //                                 style: TextStyle(
-  //                                   fontSize: 19.0,
-  //                                   fontWeight: FontWeight.bold,
-  //                                   color: Color.fromARGB(232, 232, 163, 23),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                         const SizedBox(height: 20),
-  //                         Row(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: <Widget>[
-  //                             const Text("No account? ",
-  //                                 style: TextStyle(fontSize: 18.0)),
-  //                             GestureDetector(
-  //                               onTap: () => {
-  //                                 stop(),
-  //                                 Navigator.pushReplacement(
-  //                                     context,
-  //                                     MaterialPageRoute(
-  //                                         builder: (BuildContext context) =>
-  //                                             const RegistrationScreen()))
-  //                               },
-  //                               child: const Text(
-  //                                 " Register here",
-  //                                 style: TextStyle(
-  //                                   fontSize: 19.0,
-  //                                   fontWeight: FontWeight.bold,
-  //                                   color: Color.fromARGB(232, 232, 163, 23),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   speakIntro(String intro) async {
     if (intro != null && intro.isNotEmpty) {
