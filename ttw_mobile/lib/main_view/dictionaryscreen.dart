@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import '../model/user.dart';
 import 'mainscreen.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:avatar_glow/avatar_glow.dart';
 
 User user = User();
 
@@ -42,7 +44,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   final String _url = "https://owlbot.info/api/v4/dictionary/";
   final String _token = "78a5f282b05342e425dbd662e06500e2d760b06f";
 
-  final TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   late StreamController _streamController;
   late Stream _stream;
@@ -81,13 +83,44 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     }
   }
 
+  //Speech to text
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+
+  void onListen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => print('onStatus: $val'),
+        onError: (val) => print('onError: $val'),
+      );
+      if (available) {
+        setState(() {
+          _isListening = true;
+        });
+        _speech.listen(
+          onResult: (val) {
+            setState(() {
+              _controller.text = val.recognizedWords;
+            });
+            _search(); // Call _search() after updating the text
+          },
+        );
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _speech.stop();
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
     _streamController = StreamController();
     _stream = _streamController.stream;
     _debounce = Timer(const Duration(milliseconds: 1000), () {});
+    _speech = stt.SpeechToText();
   }
 
   @override
@@ -270,6 +303,18 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
           },
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AvatarGlow(
+          animate: _isListening,
+          glowColor: Theme.of(context).primaryColor,
+          duration: Duration(milliseconds: 2000),
+          repeatPauseDuration: Duration(milliseconds: 100),
+          repeat: true,
+          endRadius: 60.0,
+          child: FloatingActionButton(
+            onPressed: () => onListen(),
+            child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+          )),
     );
   }
 
