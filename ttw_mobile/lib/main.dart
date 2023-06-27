@@ -1,10 +1,9 @@
-// @dart=2.9
-
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'main_view/mainscreen.dart';
 import 'model/user.dart';
+
 void main() {
   runApp(const MyApp());
 }

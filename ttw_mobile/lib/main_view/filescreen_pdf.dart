@@ -85,42 +85,6 @@ class _PDFFileScreenState extends State<PDFFileScreen> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) => Scaffold(
-  //       body: Stack(
-  //         children: [
-  //           buildBackground(),
-  //           Padding(
-  //             padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-  //             child: Stack(
-  //               children: [
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: [
-  //                     buildReturnButton(),
-  //                     buildTitle(),
-  //                     buildSpeechButton(),
-  //                   ],
-  //                 ),
-  //                 Padding(
-  //                   padding: const EdgeInsets.fromLTRB(10, 50, 12, 0),
-  //                   child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.end,
-  //                       children: [
-  //                         buildImage(),
-  //                       ]),
-  //                 ),
-  //                 Padding(
-  //                   padding: const EdgeInsets.fromLTRB(10, 60, 0, 0),
-  //                   child: buildContext(),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-
   Widget buildBackground() => ClipRRect(
         child: Container(
             decoration: const BoxDecoration(
